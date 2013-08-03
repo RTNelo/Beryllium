@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Beryllium is a simple blog application. And the Be-5 version is the lightest
 one.
