@@ -38,4 +38,4 @@ nosetests.xml
 config.py
 
 # Temp Files of Vim
-.~
+*~
