@@ -22,3 +22,10 @@ class BaseHandler(web.RequestHandler):
         It will create an alias of the application's template lookup.
         """
         self.template_lookup = self.application.template_lookup
+
+    def render_string(self, template_name, **kwargs):
+        """
+        Override to provide mako templates support.
+        """
+        template = self.template_lookup.get_template(template_name)
+        return template.render(**kwargs)
