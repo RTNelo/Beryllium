@@ -16,5 +16,9 @@ class BaseHandler(web.RequestHandler):
 
     It shouldn't be used in the request handle.
     """
-    #The BaseHandler is empty now.
-    pass
+    def initialize(self):
+        """
+        Override to prepare for the handler.
+        It will create an alias of the application's template lookup.
+        """
+        self.template_lookup = self.application.template_lookup
