@@ -33,3 +33,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Private Config Files
+config.py
+
+# Temp Files of Vim
+.~
