@@ -13,6 +13,8 @@ The blog.application defines the the Application class used by the blog
 application.
 
 The blog.urls defines the relationship between the handlers and the urls.
+
+The blog.handlers defines the handlers used in the app.
 """
 
 from tornado import httpserver
