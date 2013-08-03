@@ -19,7 +19,8 @@ class Application(web.Application):
         something for the blog app.
         Now it just create an alias of urls.urls and use it to initialize.
         """
-        app_urls = urls.urls
+        #Make an alias of the urls.
+        self.app_urls = urls.urls
 
         #Prepare the TemplateLookup
         self.template_lookup = lookup.TemplateLookup(
@@ -32,4 +33,4 @@ class Application(web.Application):
             input_encoding='utf-8',  # Encoding of the template files.
         )
 
-        super(Application, self).__init__(app_urls)
+        super(Application, self).__init__(self.app_urls)
