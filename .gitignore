@@ -39,3 +39,4 @@ config.py
 
 # Temp Files of Vim
 *~
+*.swp
