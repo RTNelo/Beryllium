@@ -1,2 +1,4 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+debug = False  # Blog app will enter the debug mode if it is True.
