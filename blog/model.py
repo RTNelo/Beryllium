@@ -23,11 +23,9 @@ engine = create_engine(url)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
 #Prepare the superclass of model class.
-Base = declarative_base()
-
-
-class BaseModel(Base):
+class BaseModel(object):
     """
     The superclass of all model class. It will support some common method.
     """
@@ -38,7 +36,11 @@ class BaseModel(Base):
         session.add(self)
 
 
-class User(BaseModel):
+Base = declarative_base(cls=BaseModel)
+
+
+#Model defination.
+class User(Base):
     """
     Subclass of a declarative_base that define the info structure of users.
     """
