@@ -70,3 +70,10 @@ class User(BaseModel):
                                  )
 
 Base.metadata.create_all(engine)
+
+
+def commit():
+    """
+    Use the commit method of the session to commit every change.
+    """
+    session.commit()
