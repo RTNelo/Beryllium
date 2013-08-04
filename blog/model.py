@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
@@ -52,8 +54,15 @@ class User(Base):
     password = Column(types.String(64))
     nickname = Column(types.String(64))
     status = Column(types.Enum('host', 'admin', 'user'))
+    #The register_time default value is utcnow.
+    register_time = Column(types.DateTime, default=datetime.datetime.utcnow)
 
-    def __init__(self, email, password, nickname, status='user'):
+    def __init__(self,
+                 email,
+                 password,
+                 nickname,
+                 status='user',
+                 register_time=None):
         """
         Need 3 strings to init.
         emial should less than 128 bits.
@@ -61,6 +70,8 @@ class User(Base):
         convert it to the the hash value and stock it.
         nickname should less than 64 bits.
         status should be on of the ['host', 'admin', 'user'].
+        register_time should be a datetime type. UTC time. Leave out it will
+        use the utcnow when commit.
         """
         self.email = email
         #Hash value converting. 3 times default.
@@ -68,13 +79,19 @@ class User(Base):
         self.password = digest
         self.nickname = nickname
         self.status = status
+        #If datetime is None, just leave out it to use the utcnow callable
+        #after commit.
+        if register_time is not None:
+            self.register_time = register_time
 
     def __repr__(self):
-        str_patter = "<User('{email}', '{password}', '{nickname}', '{status}')>"
+        str_patter = ("<User('{email}', '{password}', '{nickname}', "
+                      "'{status}', '{register_time}')>")
         return str_patter.format(email=self.email,
                                  password=self.password,
                                  nickname=self.nickname,
                                  status=self.status,
+                                 register_time=self.register_time,
                                  )
 
 Base.metadata.create_all(engine)
