@@ -17,18 +17,21 @@ The blog.handlers defines the handlers used in the app.
 The blog.context defines some useful instance used by the app, such as
 template lookup and database instance.
 
-the blog.options will define the options and  parse the config.py.
+The blog.options will define the options and  parse the config.py.
 
+The blog.model will define the datamodel used by the app.
 """
 import application
 import urls
 import handlers
 import context
 import options
+import model
 
 __all__ = ['application',
            'urls',
            'handlers',
            'context',
            'options',
+           'model',
            ]
