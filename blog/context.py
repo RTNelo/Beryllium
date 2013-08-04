@@ -10,13 +10,23 @@ import tempfile
 
 from mako import lookup
 
-#Prepare the TemplateLookup
-template_lookup = lookup.TemplateLookup(
-    ['templates/'],  # Path to look up templates.
-    module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to
-                                           # store compiled templates.
-    #TODO: Use options' value.
-    filesystem_checkes=True,  # Track the template file, when it
-                              # modified, reload it.
-    input_encoding='utf-8',  # Encoding of the template files.
-)
+from tornado import util
+
+import options
+
+
+class Context(util.ObjectDict):
+    def prepare(self):
+        """Application should invoke this function before use the context."""
+        #Prepare the TemplateLookup
+        self.template_lookup = lookup.TemplateLookup(
+            ['templates/'],  # Path to look up templates.
+            module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to
+                                                   # store compiled templates.
+            filesystem_checkes=options.options.debug,  # Track the template
+                                                       # file, when it is
+                                                       # modified, reload it.
+            input_encoding='utf-8',  # Encoding of the template files.
+        )
+
+context = Context()

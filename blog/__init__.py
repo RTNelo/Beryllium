@@ -17,4 +17,6 @@ The blog.handlers defines the handlers used in the app.
 The blog.context defines some useful instance used by the app, such as
 template lookup and database instance.
 
+the blog.options will parse the config.py.
+
 """
