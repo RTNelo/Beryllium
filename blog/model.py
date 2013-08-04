@@ -54,8 +54,7 @@ class User(Base):
     password = Column(types.String(64))
     nickname = Column(types.String(64))
     status = Column(types.Enum('host', 'admin', 'user'))
-    #The register_time default value is utcnow.
-    register_time = Column(types.DateTime, default=datetime.datetime.utcnow)
+    register_time = Column(types.DateTime)
 
     def __init__(self,
                  email,
@@ -71,7 +70,7 @@ class User(Base):
         nickname should less than 64 bits.
         status should be on of the ['host', 'admin', 'user'].
         register_time should be a datetime type. UTC time. Leave out it will
-        use the utcnow when commit.
+        use the utcnow.
         """
         self.email = email
         #Hash value converting. 3 times default.
@@ -79,10 +78,8 @@ class User(Base):
         self.password = digest
         self.nickname = nickname
         self.status = status
-        #If datetime is None, just leave out it to use the utcnow callable
-        #after commit.
-        if register_time is not None:
-            self.register_time = register_time
+        #If datetime is None, just use the utcnow.
+        self.register_time = register_time or datetime.datetime.utcnow()
 
     def __repr__(self):
         str_patter = ("<User('{email}', '{password}', '{nickname}', "
