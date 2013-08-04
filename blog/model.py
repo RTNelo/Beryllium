@@ -51,26 +51,30 @@ class User(Base):
     email = Column(types.String(128), primary_key=True)
     password = Column(types.String(64))
     nickname = Column(types.String(64))
+    status = Column(types.Enum('host', 'admin', 'user'))
 
-    def __init__(self, email, password, nickname):
+    def __init__(self, email, password, nickname, status='user'):
         """
         Need 3 strings to init.
         emial should less than 128 bits.
         password should be the literal password of an account, this method will
         convert it to the the hash value and stock it.
         nickname should less than 64 bits.
+        status should be on of the ['host', 'admin', 'user'].
         """
         self.email = email
         #Hash value converting. 3 times default.
         digest = utils.hash_repeat(password)
         self.password = digest
         self.nickname = nickname
+        self.status = status
 
     def __repr__(self):
-        str_patter = "<User('{email}', '{password}', '{nickname}')>"
+        str_patter = "<User('{email}', '{password}', '{nickname}', '{status}')>"
         return str_patter.format(email=self.email,
                                  password=self.password,
                                  nickname=self.nickname,
+                                 status=self.status,
                                  )
 
 Base.metadata.create_all(engine)
