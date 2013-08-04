@@ -18,4 +18,4 @@ options.define('debug',
                metavar='BOOL')
 
 #Parse the config.py
-options.parse_config_file('config.py')
+options.parse_config_file('blog/config.py')
