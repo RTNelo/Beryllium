@@ -9,7 +9,7 @@ BaseHandler is extended from tornado.RequestHandler.
 """
 from tornado import web
 
-from context import context
+import context
 
 
 class BaseHandler(web.RequestHandler):
