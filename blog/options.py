@@ -11,11 +11,11 @@ options = options_module.OptionParser()
 
 #Define the debug option.
 des_of_debug = """Blog will enter the debug mode if it is True."""
-options.options.define('debug',
-                       default=False,
-                       type=bool,
-                       help=des_of_debug,
-                       metavar='BOOL')
+options.define('debug',
+               default=False,
+               type=bool,
+               help=des_of_debug,
+               metavar='BOOL')
 
 #Parse the config.py
 options.parse_config_file('config.py')
