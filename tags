@@ -5,20 +5,71 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 Application	blog/application.py	/^class Application(web.Application):$/;"	c
+Base	blog/model.py	/^Base = declarative_base(cls=BaseModel)$/;"	v
 BaseHandler	blog/handlers.py	/^class BaseHandler(web.RequestHandler):$/;"	c
+BaseModel	blog/model.py	/^class BaseModel(object):$/;"	c
+Session	blog/model.py	/^Session = sessionmaker(bind=engine)$/;"	v
+User	blog/model.py	/^class User(Base):$/;"	c
 __all__	blog/__init__.py	/^__all__ = ['application',$/;"	v
 __init__	blog/application.py	/^    def __init__(self):$/;"	m	class:Application
-debug	blog/config.py	/^debug = True  # Blog app will enter the debug mode if it is True.$/;"	v
+__init__	blog/model.py	/^    def __init__(self,$/;"	m	class:User
+__repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:User	file:
+__tablename__	blog/model.py	/^    __tablename__ = 'users'$/;"	v	class:User
+commit	blog/model.py	/^def commit():$/;"	f
+db_address	blog/config.py	/^db_address = '192.168.56.101'$/;"	v
+db_name	blog/config.py	/^db_name = 'blog'$/;"	v
+db_port	blog/config.py	/^db_port = 3306$/;"	v
+db_pwd	blog/config.py	/^db_pwd = 'XDHoAJomqZaxcLpxkZu7jWZ8KxHq9a'$/;"	v
+db_user	blog/config.py	/^db_user = 'blog'$/;"	v
+dbname	blog/model.py	/^                         dbname=options.db_name,$/;"	v
+debug	blog/config.py	/^debug = True$/;"	v
+default	blog/options.py	/^               default='',$/;"	v
+default	blog/options.py	/^               default='127.0.0.1',$/;"	v
+default	blog/options.py	/^               default='blog',$/;"	v
+default	blog/options.py	/^               default='root',$/;"	v
+default	blog/options.py	/^               default=3306,$/;"	v
 default	blog/options.py	/^               default=False,$/;"	v
+des_of_db_address	blog/options.py	/^des_of_db_address = 'The IP Address of the database server.'$/;"	v
+des_of_db_name	blog/options.py	/^des_of_db_name = 'The name of the database on the database server.'$/;"	v
+des_of_db_port	blog/options.py	/^des_of_db_port = 'The port of the database server.'$/;"	v
+des_of_db_pwd	blog/options.py	/^des_of_db_pwd = 'The password of the db_user of the database server.'$/;"	v
+des_of_db_user	blog/options.py	/^des_of_db_user = 'The user name of the database server.'$/;"	v
+des_of_debug	blog/options.py	/^des_of_debug = 'Blog will enter the debug mode if it is True.'$/;"	v
+email	blog/model.py	/^    email = Column(types.String(128), primary_key=True)$/;"	v	class:User
+engine	blog/model.py	/^engine = create_engine(url, echo=options.debug)$/;"	v
 filesystem_checks	blog/context.py	/^    filesystem_checks=options.options.debug,  # Track the template file, when$/;"	v
+group	blog/options.py	/^               group='application',$/;"	v
+group	blog/options.py	/^               group='database',$/;"	v
+hash_repeat	blog/utils.py	/^def hash_repeat(raw, time=3):$/;"	f
+help	blog/options.py	/^               help=des_of_db_address,$/;"	v
+help	blog/options.py	/^               help=des_of_db_name,$/;"	v
+help	blog/options.py	/^               help=des_of_db_port,$/;"	v
+help	blog/options.py	/^               help=des_of_db_pwd,$/;"	v
+help	blog/options.py	/^               help=des_of_db_user,$/;"	v
 help	blog/options.py	/^               help=des_of_debug,$/;"	v
+host	blog/model.py	/^                         host=options.db_address,$/;"	v
 initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
 input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
+last_login_time	blog/model.py	/^    last_login_time = Column(types.DateTime)$/;"	v	class:User
 main	server.py	/^def main():$/;"	f
-metavar	blog/options.py	/^               metavar='BOOL')$/;"	v
+metavar	blog/options.py	/^               metavar='BOOL',$/;"	v
+metavar	blog/options.py	/^               metavar='INTEGER',$/;"	v
+metavar	blog/options.py	/^               metavar='STRING',$/;"	v
 module_directory	blog/context.py	/^    module_directory=tempfile.mkdtemp(),    # Create a temp directory to store$/;"	v
+nickname	blog/model.py	/^    nickname = Column(types.String(64))$/;"	v	class:User
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
+password	blog/model.py	/^    password = Column(types.String(64))$/;"	v	class:User
+pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
+register_time	blog/model.py	/^    register_time = Column(types.DateTime)$/;"	v	class:User
 render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler
+rollback	blog/model.py	/^def rollback():$/;"	f
+session	blog/model.py	/^session = Session()$/;"	v
+status	blog/model.py	/^    status = Column(types.Enum('host', 'admin', 'user'))$/;"	v	class:User
 template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
+track	blog/model.py	/^    def track(self):$/;"	m	class:BaseModel
 type	blog/options.py	/^               type=bool,$/;"	v
+type	blog/options.py	/^               type=int,$/;"	v
+type	blog/options.py	/^               type=str,$/;"	v
+url	blog/model.py	/^url = url_pattern.format(user=options.db_user,$/;"	v
+url_pattern	blog/model.py	/^url_pattern = 'mysql+pymysql:\/\/{user}:{pwd}@{host}\/{dbname}'$/;"	v
 urls	blog/urls.py	/^urls = [(),$/;"	v
