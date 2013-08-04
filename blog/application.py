@@ -5,10 +5,7 @@ The application module define the Application class used by the blog app.
 
 Application will use the urls in the urls module to initialize it self.
 """
-import tempfile
-
 from tornado import web
-from mako import lookup
 
 import urls  # This module defines the urls.
 
@@ -21,16 +18,5 @@ class Application(web.Application):
         """
         #Make an alias of the urls.
         self.app_urls = urls.urls
-
-        #Prepare the TemplateLookup
-        self.template_lookup = lookup.TemplateLookup(
-            ['templates/'],  # Path to look up templates.
-            module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to
-                                                   # store compiled templates.
-            #TODO: Use options' value.
-            filesystem_checkes=True,  # Track the template file, when it
-                                      # modified, reload it.
-            input_encoding='utf-8',  # Encoding of the template files.
-        )
 
         super(Application, self).__init__(self.app_urls)

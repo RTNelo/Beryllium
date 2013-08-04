@@ -9,6 +9,8 @@ BaseHandler is extended from tornado.RequestHandler.
 """
 from tornado import web
 
+import context
+
 
 class BaseHandler(web.RequestHandler):
     """The superclass of all the other handlers defined in this module. defines
@@ -19,13 +21,13 @@ class BaseHandler(web.RequestHandler):
     def initialize(self):
         """
         Override to prepare for the handler.
-        It will create an alias of the application's template lookup.
         """
-        self.template_lookup = self.application.template_lookup
+        #It still empty now.
+        pass
 
     def render_string(self, template_name, **kwargs):
         """
         Override to provide mako templates support.
         """
-        template = self.template_lookup.get_template(template_name)
+        template = context.template_lookup.get_template(template_name)
         return template.render(**kwargs)

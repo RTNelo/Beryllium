@@ -14,4 +14,7 @@ The blog.urls defines the relationship between the handlers and the urls.
 
 The blog.handlers defines the handlers used in the app.
 
+The blog.context defines some useful instance used by the app, such as
+template lookup and database instance.
+
 """

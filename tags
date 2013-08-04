@@ -7,5 +7,12 @@
 Application	blog/application.py	/^class Application(web.Application):$/;"	c
 BaseHandler	blog/handlers.py	/^class BaseHandler(web.RequestHandler):$/;"	c
 __init__	blog/application.py	/^    def __init__(self):$/;"	m	class:Application
+debug	blog/config.py	/^debug = True  # Blog app will enter the debug mode if it is True.$/;"	v
+filesystem_checkes	blog/context.py	/^    filesystem_checkes=True,  # Track the template file, when it$/;"	v
+initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
+input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
 main	server.py	/^def main():$/;"	f
+module_dictionary	blog/context.py	/^    module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to$/;"	v
+render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler
+template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
 urls	blog/urls.py	/^urls = [(),$/;"	v
