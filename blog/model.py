@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import String
+from sqlalchemy.orm import sessionmaker
 
 from options import options
 
@@ -17,6 +18,10 @@ url = url_pattern.format(user=options.db_user,
                          )
 
 engine = create_engine(url)
+
+#Prepare the session instance.
+Session = sessionmaker(bind=engine)
+session = Session()
 
 #Prepare the superclass of model class.
 Base = declarative_base()
