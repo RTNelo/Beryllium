@@ -18,7 +18,7 @@ url = url_pattern.format(user=options.db_user,
                          dbname=options.db_name,
                          )
 
-engine = create_engine(url)
+engine = create_engine(url, echo=options.debug)
 
 #Prepare the session instance.
 Session = sessionmaker(bind=engine)
