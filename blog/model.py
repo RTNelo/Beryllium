@@ -76,8 +76,16 @@ class User(Base):
 Base.metadata.create_all(engine)
 
 
+#Some alias of the session's method, please use these alias first.
 def commit():
     """
     Use the commit method of the session to commit every change.
     """
     session.commit()
+
+
+def rollback():
+    """
+    Use this to rollback.
+    """
+    session.rollback()
