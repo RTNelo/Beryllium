@@ -27,7 +27,18 @@ session = Session()
 Base = declarative_base()
 
 
-class User(Base):
+class BaseModel(Base):
+    """
+    The superclass of all model class. It will support some common method.
+    """
+    def track(self):
+        """
+        Add the instance to the session.
+        """
+        session.add(self)
+
+
+class User(BaseModel):
     """
     Subclass of a declarative_base that define the info structure of users.
     """
