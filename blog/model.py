@@ -4,7 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import types
 from sqlalchemy.orm import sessionmaker
 
 import utils
@@ -48,9 +48,9 @@ class User(Base):
 
     __tablename__ = 'users'
     #The base information of an account.
-    email = Column(String(128), primary_key=True)
-    password = Column(String(64))
-    nickname = Column(String(64))
+    email = Column(types.String(128), primary_key=True)
+    password = Column(types.String(64))
+    nickname = Column(types.String(64))
 
     def __init__(self, email, password, nickname):
         """
