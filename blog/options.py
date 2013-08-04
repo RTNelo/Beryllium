@@ -15,7 +15,9 @@ options.define('debug',
                default=False,
                type=bool,
                help=des_of_debug,
-               metavar='BOOL')
+               metavar='BOOL',
+               group='application',
+               )
 
 #Parse the config.py
 options.parse_config_file('blog/config.py')

@@ -6,13 +6,19 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 Application	blog/application.py	/^class Application(web.Application):$/;"	c
 BaseHandler	blog/handlers.py	/^class BaseHandler(web.RequestHandler):$/;"	c
+__all__	blog/__init__.py	/^__all__ = ['application',$/;"	v
 __init__	blog/application.py	/^    def __init__(self):$/;"	m	class:Application
 debug	blog/config.py	/^debug = True  # Blog app will enter the debug mode if it is True.$/;"	v
-filesystem_checkes	blog/context.py	/^    filesystem_checkes=True,  # Track the template file, when it$/;"	v
+default	blog/options.py	/^               default=False,$/;"	v
+filesystem_checks	blog/context.py	/^    filesystem_checks=options.options.debug,  # Track the template file, when$/;"	v
+help	blog/options.py	/^               help=des_of_debug,$/;"	v
 initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
 input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
 main	server.py	/^def main():$/;"	f
-module_dictionary	blog/context.py	/^    module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to$/;"	v
+metavar	blog/options.py	/^               metavar='BOOL')$/;"	v
+module_directory	blog/context.py	/^    module_directory=tempfile.mkdtemp(),    # Create a temp directory to store$/;"	v
+options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
 render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler
 template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
+type	blog/options.py	/^               type=bool,$/;"	v
 urls	blog/urls.py	/^urls = [(),$/;"	v
