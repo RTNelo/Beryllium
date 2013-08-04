@@ -21,11 +21,12 @@ class Context(util.ObjectDict):
         #Prepare the TemplateLookup
         self.template_lookup = lookup.TemplateLookup(
             ['templates/'],  # Path to look up templates.
-            module_dictionary=tempfile.mkdtemp(),  # Create a temp directory to
-                                                   # store compiled templates.
-            filesystem_checkes=options.options.debug,  # Track the template
-                                                       # file, when it is
-                                                       # modified, reload it.
+            module_directory=tempfile.mkdtemp(),    # Create a temp directory
+                                                    # to store compiled
+                                                    # templates.
+            filesystem_checks=options.options.debug,  # Track the template
+                                                      # file, when it is
+                                                      # modified, reload it.
             input_encoding='utf-8',  # Encoding of the template files.
         )
 
