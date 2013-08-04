@@ -1,4 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-debug = False  # Blog app will enter the debug mode if it is True.
+#Blog app will enter the debug mode if it is True.
+debug = False
+#The IP address of the database server.
+db_address = '127.0.0.1'
+#The port of the database server.
+db_port = 3306
+#The user name of the database server.
+db_user = 'root'
+#The password of db_user of the database server.
+db_pwd = ''
+#The database name of the database server.
+db_name = 'blog'

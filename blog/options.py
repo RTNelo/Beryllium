@@ -10,13 +10,58 @@ from tornado import options as options_module
 options = options_module.OptionParser()
 
 #Define the debug option.
-des_of_debug = """Blog will enter the debug mode if it is True."""
+des_of_debug = 'Blog will enter the debug mode if it is True.'
 options.define('debug',
                default=False,
                type=bool,
                help=des_of_debug,
                metavar='BOOL',
                group='application',
+               )
+
+des_of_db_address = 'The IP Address of the database server.'
+options.define('db_address',
+               default='127.0.0.1',
+               type=str,
+               help=des_of_db_address,
+               metavar='STRING',
+               group='database',
+               )
+
+des_of_db_port = 'The port of the database server.'
+options.define('db_port',
+               default=3306,
+               type=int,
+               help=des_of_db_port,
+               metavar='INTEGER',
+               group='database',
+               )
+
+des_of_db_user = 'The user name of the database server.'
+options.define('db_user',
+               default='root',
+               type=str,
+               help=des_of_db_user,
+               metavar='STRING',
+               group='database',
+               )
+
+des_of_db_pwd = 'The password of the db_user of the database server.'
+options.define('db_pwd',
+               default='',
+               type=str,
+               help=des_of_db_pwd,
+               metavar='STRING',
+               group='database',
+               )
+
+des_of_db_name = 'The name of the database on the database server.'
+options.define('db_name',
+               default='blog',
+               type=str,
+               help=des_of_db_name,
+               metavar='STRING',
+               group='database',
                )
 
 #Parse the config.py
