@@ -8,7 +8,7 @@ Application will use the urls in the urls module to initialize itself.
 from tornado import web
 
 import urls  # This module defines the urls.
-import options
+from options import options
 
 
 class Application(web.Application):
@@ -21,5 +21,5 @@ class Application(web.Application):
         self.app_urls = urls.urls
 
         super(Application, self).__init__(self.app_urls,
-                                          debug=options.options.debug
+                                          debug=options.debug
                                           )
