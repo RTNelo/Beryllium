@@ -7,6 +7,7 @@ from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import sessionmaker
 
+import utils
 from options import options
 
 #Prepare the engine instance.
@@ -60,8 +61,9 @@ class User(Base):
         nickname should less than 64 bits.
         """
         self.email = email
-        #TODO: Hash value converting.
-        self.password = password
+        #Hash value converting. 3 times default.
+        digest = utils.hash_repeat(password)
+        self.password = digest
         self.nickname = nickname
 
     def __repr__(self):
