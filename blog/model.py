@@ -69,6 +69,7 @@ class User(Base):
                  nickname,
                  register_ip,
                  last_login_time=None,
+                 last_login_ip=None,
                  status='user',
                  id=None,
                  register_time=None,):
@@ -91,6 +92,11 @@ class User(Base):
                                 the time when the user last login. Should be a
                                 UTC time too. The microsencond will be leave
                                 out, too.
+            last_login_ip(str,
+                          default=register_ip):
+                              the ip address where the user last login. Leave
+                              it out will use the register_ip. Must short than
+                              15 bytes, too.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
@@ -108,6 +114,8 @@ class User(Base):
         self.email = email
         self.nickname = nickname
         self.register_ip = register_ip
+        #If last_login_ip is None, just use self.register_ip.
+        self.last_login_ip = last_login_ip or self.register_ip
         self.status = status
 
         #If register_time is None, just use the utcnow.
@@ -149,6 +157,7 @@ class User(Base):
                                          "{register_time}",
                                          "'{register_ip}'",
                                          "{last_login_time}",
+                                         "'{last_login_ip}'",
                                          )),
                               ')>'))
         return str_patter.format(id=self.id,
@@ -159,6 +168,7 @@ class User(Base):
                                  register_time=self.register_time,
                                  register_ip=self.register_ip,
                                  last_login_time=self.last_login_time,
+                                 last_login_ip=self.last_login_ip,
                                  )
 
 Base.metadata.create_all(engine)
