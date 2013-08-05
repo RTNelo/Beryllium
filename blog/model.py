@@ -65,6 +65,7 @@ class User(Base):
     register_time = Column(types.DateTime, nullable=False)
     register_ip = Column(types.String(15), nullable=False)
     last_login_time = Column(types.DateTime, nullable=False)
+    last_login_ip = Column(types.String(15), nullable=False)
 
     def __init__(self,
                  email,
