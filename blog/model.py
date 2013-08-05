@@ -83,7 +83,9 @@ class User(Base):
             nickname(str): the nickname of the user. Should less than 64 bytes
                            long.
             register_ip(str): the ipv4 address of the user when it register the
-                              blog. Must short than 15 bytes.
+                              blog. Must short than 15 bytes. str(register_ip)
+                              will be used as salt_suf when calculate hash
+                              value of a password.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
@@ -95,6 +97,8 @@ class User(Base):
                           default=datetime.datetime.utcnow):
                               the time when the user register. Should be a UTC
                               time. And the microsencond will be leave out.
+                              str(register_time) will be used as salt_pre when
+                              calculate a password hash value.
             last_login_time(datetime.datetime,
                             default=last_login_time):
                                 the time when the user last login. Should be a
@@ -121,15 +125,18 @@ class User(Base):
         self.password = digest
 
     def get_password_hash(self, password):
-        """Get a password's hash value that self.register_time as salt_pre.
+        """Get a password's hash value and use user's some attributes as salt.
 
         args:
             password(str): the password you want to get hash value.
         return(str):
-            The hash value of the password, self.register_time as salt_pre.
+            The hash value of the password, self.register_time as salt_pre, and
+            self.register_ip as salt_suf.
         """
-        #Hash value converting. 3 times default. Use register_time as salt_pre.
-        digest = utils.hash_repeat(password, salt_pre=str(self.register_time))
+        #Hash value converting. 3 times default.
+        digest = utils.hash_repeat(password,
+                                   salt_pre=str(self.register_time),
+                                   salt_suf=str(self.register_ip))
         return digest
 
     def __repr__(self):
