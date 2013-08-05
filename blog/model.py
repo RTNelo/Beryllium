@@ -37,13 +37,11 @@ session = Session()
 
 #Prepare the superclass of model class.
 class BaseModel(object):
-    """
-    The superclass of all model class. It will support some common method.
-    """
+    """The superclass of model class which provides some common methods."""
     def track(self):
-        """
-        Add the instance to the session.
-        """
+        """Let SQLAlchemy track this object.
+
+        This method will add the instance to the session."""
         session.add(self)
 
 
@@ -52,9 +50,7 @@ Base = declarative_base(cls=BaseModel)
 
 #Model defination.
 class User(Base):
-    """
-    Subclass of a declarative_base that define the info structure of users.
-    """
+    """Subclass of a declarative_base defining the structure of users."""
 
     __tablename__ = 'users'
     #The base information of an account.
@@ -73,16 +69,26 @@ class User(Base):
                  register_time=None,
                  last_login_time=None):
         """
-        Need 3 strings to init.
-        emial should less than 128 bits.
-        password should be the literal password of an account, this method will
-        convert it to the the hash value and stock it.
-        nickname should less than 64 bits.
-        status should be on of the ['host', 'admin', 'user'].
-        register_time should be a datetime type. UTC time. Leave out it will
-        use the utcnow.
-        last_login_time also should be a utc datetime type. It's default value
-        is the register_time.
+        args:
+            email(str): the email adress of the user. Should less than 128 bits
+                        long.
+            password(str): the raw password of the user. The __init__ method
+                           will calculate and store its hash value
+                           automatically.
+            nickname(str): the nickname of the user. Should less than 64 bits
+                           long.
+            status(str): the status of the user. Must be one of these values:
+                             'host': the owner of the blog;
+                             'admin': the administory of the blog;
+                             'user': plan user of the blog.
+            register_time(datetime.datetime,
+                          default=datetime.datetime.utcnow):
+                              the time when the user register.
+                              Should be a UTC time.
+            last_login_time(datetime.datetime,
+                            default=last_login_time):
+                                the time when the user last login. Should be a
+                                UTC time too.
         """
         self.email = email
         #Hash value converting. 3 times default.
@@ -110,14 +116,10 @@ Base.metadata.create_all(engine)
 
 #Some alias of the session's method, please use these alias first.
 def commit():
-    """
-    Use the commit method of the session to commit every change.
-    """
+    """Use the commit method of the session to commit every change."""
     session.commit()
 
 
 def rollback():
-    """
-    Use this to rollback.
-    """
+    """Use this to rollback."""
     session.rollback()
