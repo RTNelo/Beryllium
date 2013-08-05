@@ -71,8 +71,9 @@ class User(Base):
                  last_login_time=None,
                  last_login_ip=None,
                  status='user',
+                 register_time=None,
                  id=None,
-                 register_time=None,):
+                 ):
         """
         args:
             email(str): the email adress of the user. Should less than 128
@@ -101,15 +102,15 @@ class User(Base):
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
                              'user': plan user of the blog.
-            id(int, default=auto_increase): the id of the user. Use None will
-                                            use a new id created by session
-                                            when commit.
             register_time(datetime.datetime,
                           default=datetime.datetime.utcnow):
                               the time when the user register. Should be a UTC
                               time. And the microsencond will be leave out.
                               str(register_time) will be used as salt_pre when
                               calculate a password hash value.
+            id(int, default=auto_increase): the id of the user. Use None will
+                                            use a new id created by session
+                                            when commit.
         """
         self.email = email
         self.nickname = nickname
