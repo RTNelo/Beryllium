@@ -171,6 +171,76 @@ class User(Base):
                                  last_login_ip=self.last_login_ip,
                                  )
 
+
+class Article(Base):
+    """The class of a article object that defining its structure."""
+
+    __tablename__ = 'articles'
+
+    #Base information of an article object.
+    id = Column(types.Integer, primary_key=True)
+    title = Column(types.String(128), unique=True, nullable=False)
+    title_for_url = Column(types.String(128), unique=True, nullable=False)
+    raw = Column(types.Text, nullable=True)
+    content = Column(types.Text, nullable=True)
+    submit_time = Column(types.DateTime, nullable=False)
+    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)
+
+    def __init__(self,
+                 title,
+                 title_for_url,
+                 raw,
+                 type='rst',
+                 content=None,
+                 submit_time=None,
+                 ):
+        """
+        args:
+            title(str): the title of the article. Must be shorter than 128
+                        bytes.
+            title_for_url(str): the title of url display. A string in ASCII
+                                encoding is recommended. Should be shorter
+                                than 128 bytes.
+            raw(str): the raw content of the article (such as the markdown
+                      file's content).
+            type(str): the type of the raw. Must be one of:
+                           'plain': plain text;
+                           'md': Markdown;
+                           'rst': reStructedText.
+            content(str): the content of the article. If it is None, this
+                          function will convert the raw to content by the
+                          type above.
+            submit_time(datetime.datetime): When the author submit the time?
+                                            Should be a UTC time. If it is
+                                            None, this method will use
+                                            datetime.datetime.utcnow(). And
+                                            the microsencond will be leave
+                                            out to keep step with database.
+        """
+        self.title = title
+        self.title_for_url = title
+        self.raw = raw
+        self.type = type
+
+        self.content = content or utils.content_convert(raw, self.type)
+
+        submit_time = submit_time or datetime.datetime.utcnow()
+        self.submit_time = utils.remove_microsecond(submit_time)
+
+    def __repr__(self):
+        str_patter = ''.join(('<Article(',
+                              ', '.join(("'{title}'",
+                                         "'{title_for_url}'",
+                                         "'{type}'",
+                                         "{submit_time}")),
+                              ')>'))
+        return str_patter.format(title=self.title,
+                                 title_for_url=self.title_for_url,
+                                 type=self.type,
+                                 submit_time=self.submit_time,
+                                 )
+
+
 Base.metadata.create_all(engine)
 
 
