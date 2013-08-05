@@ -259,6 +259,8 @@ class Article(Base):
 
     @staticmethod
     def content_convert(raw, type):
+        #TODO RTNelo (rtnelo@yeah.net):
+        #Move this method to utils module.
         """Convert the raw content according to the type.
         args:
             raw(str): raw content need convertint.
@@ -269,6 +271,62 @@ class Article(Base):
         """
         #TODO RTNelo (rtnelo@yeah.net)
         pass
+
+
+class Comment(Base):
+    """Class of a comment."""
+    __tablename__ = 'comments'
+
+    #Base information of a comment.
+    id = Column(types.Integer, primary_key=True)
+    raw = Column(types.Text, nullable=False)
+    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)
+    content = Column(types.Text, nullable=False)
+    submit_time = Column(types.DateTime, nullable=False)
+
+    def __init__(self,
+                 raw,
+                 type='rst',
+                 content=None,
+                 submit_time=None,
+                 id=None,
+                 ):
+        """
+        args:
+            raw(str): raw content of the Comment. Such as the markdown file's
+                      content.
+            content(str): the content displayed for visitor. If it is None,
+                          __init__ will convert the raw and use the result as
+                          the content automatically.
+            type(str, default='rst'): the type of raw. Must be one of:
+                                          'plain': plain text;
+                                          'md': Markdown;
+                                          'rst': reStructuredText.
+            submit_time(datetime.datetime, default=datetime.datetime.utcnow():
+                    The UTC time when author submit the comment. If it is None,
+                    use datetime.datetime.utcnow() as default. Then the
+                    microsencond will be leave out to keep step with database.
+            id(int, default=None): the id of the comment. If it is None, will
+                                   use a value presented by database.
+        """
+        self.raw = raw
+        self.types = types
+        self.content = content or utils.content_convert(self.raw, self.type)
+        submit_time = submit_time or datetime.datetime.utcnow()
+        self.submit_time = utils.remove_microsecond(submit_time)
+        if id is not None:
+            self.id = id
+
+    def __repr__(self):
+        str_patter = ''.join(('<Comment(',
+                              ', '.join(("{id}",
+                                         "'{type}'",
+                                         "{submit_time}")),
+                              ')>'))
+        return str_patter.format(id=self.id,
+                                 type=self.type,
+                                 submit_time=self.submit_time,
+                                 )
 
 
 Base.metadata.create_all(engine)

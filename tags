@@ -9,19 +9,26 @@ Article	blog/model.py	/^class Article(Base):$/;"	c
 Base	blog/model.py	/^Base = declarative_base(cls=BaseModel)$/;"	v
 BaseHandler	blog/handlers.py	/^class BaseHandler(web.RequestHandler):$/;"	c
 BaseModel	blog/model.py	/^class BaseModel(object):$/;"	c
+Comment	blog/model.py	/^class Comment(Base):$/;"	c
 Session	blog/model.py	/^Session = sessionmaker(bind=engine)$/;"	v
 User	blog/model.py	/^class User(Base):$/;"	c
 __all__	blog/__init__.py	/^__all__ = ['application',$/;"	v
 __init__	blog/application.py	/^    def __init__(self):$/;"	m	class:Application
 __init__	blog/model.py	/^    def __init__(self,$/;"	m	class:Article
+__init__	blog/model.py	/^    def __init__(self,$/;"	m	class:Comment
 __init__	blog/model.py	/^    def __init__(self,$/;"	m	class:User
 __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:Article	file:
+__repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:Comment	file:
 __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:User	file:
 __tablename__	blog/model.py	/^    __tablename__ = 'articles'$/;"	v	class:Article
+__tablename__	blog/model.py	/^    __tablename__ = 'comments'$/;"	v	class:Comment
 __tablename__	blog/model.py	/^    __tablename__ = 'users'$/;"	v	class:User
+author	blog/model.py	/^    author = relationship(User, backref=backref('articles', order_by=id))$/;"	v	class:Article
+author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Article
 commit	blog/model.py	/^def commit():$/;"	f
+content	blog/model.py	/^    content = Column(types.Text, nullable=False)$/;"	v	class:Comment
 content	blog/model.py	/^    content = Column(types.Text, nullable=True)$/;"	v	class:Article
-content_convert	blog/utils.py	/^def content_convert(raw, type):$/;"	f
+content_convert	blog/model.py	/^    def content_convert(raw, type):$/;"	m	class:Article
 db_address	blog/config.py	/^db_address = '192.168.56.101'$/;"	v
 db_name	blog/config.py	/^db_name = 'blog'$/;"	v
 db_port	blog/config.py	/^db_port = 3306$/;"	v
@@ -56,9 +63,11 @@ help	blog/options.py	/^               help=des_of_db_user,$/;"	v
 help	blog/options.py	/^               help=des_of_debug,$/;"	v
 host	blog/model.py	/^                         host=options.db_address,$/;"	v
 id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:Article
+id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:Comment
 id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:User
 initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
 input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
+last_login_ip	blog/model.py	/^    last_login_ip = Column(types.String(15), nullable=False)$/;"	v	class:User
 last_login_time	blog/model.py	/^    last_login_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
 main	server.py	/^def main():$/;"	f
 metavar	blog/options.py	/^               metavar='BOOL',$/;"	v
@@ -69,6 +78,7 @@ nickname	blog/model.py	/^    nickname = Column(types.String(64), nullable=False)
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
 password	blog/model.py	/^    password = Column(types.String(64), nullable=False)$/;"	v	class:User
 pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
+raw	blog/model.py	/^    raw = Column(types.Text, nullable=False)$/;"	v	class:Comment
 raw	blog/model.py	/^    raw = Column(types.Text, nullable=True)$/;"	v	class:Article
 register_ip	blog/model.py	/^    register_ip = Column(types.String(15), nullable=False)$/;"	v	class:User
 register_time	blog/model.py	/^    register_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
@@ -78,11 +88,13 @@ rollback	blog/model.py	/^def rollback():$/;"	f
 session	blog/model.py	/^session = Session()$/;"	v
 status	blog/model.py	/^    status = Column(types.Enum('host', 'admin', 'user'), nullable=False)$/;"	v	class:User
 submit_time	blog/model.py	/^    submit_time = Column(types.DateTime, nullable=False)$/;"	v	class:Article
+submit_time	blog/model.py	/^    submit_time = Column(types.DateTime, nullable=False)$/;"	v	class:Comment
 template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
 title	blog/model.py	/^    title = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:Article
 title_for_url	blog/model.py	/^    title_for_url = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:Article
 track	blog/model.py	/^    def track(self):$/;"	m	class:BaseModel
 type	blog/model.py	/^    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)$/;"	v	class:Article
+type	blog/model.py	/^    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)$/;"	v	class:Comment
 type	blog/options.py	/^               type=bool,$/;"	v
 type	blog/options.py	/^               type=int,$/;"	v
 type	blog/options.py	/^               type=str,$/;"	v
