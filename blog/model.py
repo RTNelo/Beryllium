@@ -54,7 +54,8 @@ class User(Base):
 
     __tablename__ = 'users'
     #The base information of an account.
-    email = Column(types.String(128), primary_key=True)
+    id = Column(types.Integer, primary_key=True)
+    email = Column(types.String(128), unique=True)
     password = Column(types.String(64))
     nickname = Column(types.String(64))
     status = Column(types.Enum('host', 'admin', 'user'))
@@ -66,6 +67,7 @@ class User(Base):
                  password,
                  nickname,
                  status='user',
+                 id=None,
                  register_time=None,
                  last_login_time=None):
         """
@@ -81,6 +83,9 @@ class User(Base):
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
                              'user': plan user of the blog.
+            id(int, default=auto_increase): the id of the user. Use None will
+                                            use a new id created by session
+                                            when commit.
             register_time(datetime.datetime,
                           default=datetime.datetime.utcnow):
                               the time when the user register.
@@ -101,9 +106,10 @@ class User(Base):
         self.last_login_time = last_login_time or self.register_time
 
     def __repr__(self):
-        str_patter = ("<User('{email}', '{password}', '{nickname}', "
+        str_patter = ("<User({id}, '{email}', '{password}', '{nickname}', "
                       "'{status}', '{register_time}', '{last_login_time}')>")
-        return str_patter.format(email=self.email,
+        return str_patter.format(id=self.id,
+                                 email=self.email,
                                  password=self.password,
                                  nickname=self.nickname,
                                  status=self.status,
