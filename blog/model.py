@@ -102,7 +102,8 @@ class User(Base):
                               the ip address where the user last login. Leave
                               it out will use the register_ip. Must be shorter
                               than 15 bytes, too.
-            status(str): the status of the user. Must be one of these values:
+            status(str, default='user'): the status of the user. Must be one
+                                         of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
                              'user': plan user of the blog.
@@ -214,22 +215,21 @@ class Article(Base):
                                 than 128 bytes.
             raw(str): the raw content of the article (such as the markdown
                       file's content).
-            author(User): the author of the article. This method will add itself
-                          to the user's articles list automatically if author is
-                          not None.
-            type(str): the type of the raw. Must be one of:
+            author(User, default=None): the author of the article. This method
+                          will add itself to the user's articles list
+                          automatically if author is not None.
+            type(str, default='rst'): the type of the raw. Must be one of:
                            'plain': plain text;
                            'md': Markdown;
                            'rst': reStructuredText.
-            content(str): the content of the article. If it is None, this
-                          function will convert the raw to content by the
-                          type above.
-            submit_time(datetime.datetime): When the author submit the time?
-                                            Should be a UTC time. If it is
-                                            None, this method will use
-                                            datetime.datetime.utcnow(). And
-                                            the microsencond will be leave
-                                            out to keep step with database.
+            content(str, default=None): the content of the article. If it is
+                          None, this function will convert the raw to content
+                          by the type above.
+            submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
+                    When the author submit the time? Should be a UTC time. If
+                    it is None, this method will use datetime.datetime.utcnow().
+                    And the microsencond will be leave out to keep step with
+                    database.
         """
         self.title = title
         self.title_for_url = title
