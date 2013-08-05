@@ -53,7 +53,11 @@ Base = declarative_base(cls=BaseModel)
 
 #Model defination.
 class User(Base):
-    """Subclass of a declarative_base defining the structure of users."""
+    """Subclass of a declarative_base defining the structure of users.
+
+    Use self.articles to get a list containing the user's article object (ordered
+    by the article's id).
+    """
 
     __tablename__ = 'users'
     #The base information of an account.
@@ -179,7 +183,10 @@ class User(Base):
 
 
 class Article(Base):
-    """The class of a article object that defining its structure."""
+    """The class of a article object that defining its structure.
+
+    Use self.author to get the user object representing the author.
+    """
 
     __tablename__ = 'articles'
 
