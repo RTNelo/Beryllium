@@ -3,6 +3,7 @@
 """This module provides some simple and common function and class."""
 
 import hashlib
+import datetime
 
 
 def hash_repeat(raw, salt_pre='', salt_suf='', time=3):
@@ -19,3 +20,16 @@ def hash_repeat(raw, salt_pre='', salt_suf='', time=3):
     for i in xrange(time):
         res = hashlib.sha256(''.join((salt_pre, res, salt_suf))).hexdigest()
     return res
+
+
+def remove_microsecond(time):
+    """Return a new datetime object from arg time that microsecond is 0.
+
+    args:
+        time(datetime.datetime): which datetime object you want to remove
+                                 microsecond.
+    return(datetime.datetime):
+        A new datetime object same as arg time but microsecond is 0.
+    """
+    delta = datetime.timedelta(microseconds=time.microsecond)
+    return time - delta
