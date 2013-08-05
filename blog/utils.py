@@ -34,17 +34,3 @@ def remove_microsecond(time):
     """
     delta = datetime.timedelta(microseconds=time.microsecond)
     return time - delta
-
-
-def content_convert(raw, type):
-    """Convert the raw content according to the type.
-    args:
-        raw(str): raw content need convertint.
-        type(str): what the type of raw is? Must be one of:
-                   'plain': plain text;
-                   'md': Markdown;
-                   'rst': reStructuredText.
-    """
-    #TODO RTNelo (rtnelo@yeah.net):
-    #Finish the function.
-    pass

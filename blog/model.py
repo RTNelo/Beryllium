@@ -222,7 +222,7 @@ class Article(Base):
         self.raw = raw
         self.type = type
 
-        self.content = content or utils.content_convert(raw, self.type)
+        self.content = content or Article.content_convert(raw, self.type)
 
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
@@ -239,6 +239,19 @@ class Article(Base):
                                  type=self.type,
                                  submit_time=self.submit_time,
                                  )
+
+    @staticmethod
+    def content_convert(raw, type):
+        """Convert the raw content according to the type.
+        args:
+            raw(str): raw content need convertint.
+            type(str): what the type of raw is? Must be one of:
+                       'plain': plain text;
+                       'md': Markdown;
+                       'rst': reStructuredText.
+        """
+        #TODO RTNelo (rtnelo@yeah.net)
+        pass
 
 
 Base.metadata.create_all(engine)
