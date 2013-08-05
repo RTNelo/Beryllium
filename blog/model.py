@@ -112,10 +112,10 @@ class User(Base):
         self.last_login_time = utils.remove_microsecond(last_login_time)
 
         #Get password's hash value.
-        digest = self.get_password_digest(password)
+        digest = self.get_password_hash(password)
         self.password = digest
 
-    def get_password_digest(self, password):
+    def get_password_hash(self, password):
         """Get a password's hash value that self.register_time as salt_pre.
 
         args:
