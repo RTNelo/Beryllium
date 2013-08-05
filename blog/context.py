@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 #! -*- coding: utf-8 -*-
-"""
-This module will define some useful object for the blog app.
-
-Such as the TemplateLookup.
-"""
+"""This module defines some useful object for the blog app."""
 
 import tempfile
 
