@@ -55,12 +55,12 @@ class User(Base):
     __tablename__ = 'users'
     #The base information of an account.
     id = Column(types.Integer, primary_key=True)
-    email = Column(types.String(128), unique=True)
-    password = Column(types.String(64))
-    nickname = Column(types.String(64))
-    status = Column(types.Enum('host', 'admin', 'user'))
-    register_time = Column(types.DateTime)
-    last_login_time = Column(types.DateTime)
+    email = Column(types.String(128), unique=True, nullable=False)
+    password = Column(types.String(64), nullable=False)
+    nickname = Column(types.String(64), nullable=False)
+    status = Column(types.Enum('host', 'admin', 'user'), nullable=False)
+    register_time = Column(types.DateTime, nullable=False)
+    last_login_time = Column(types.DateTime, nullable=False)
 
     def __init__(self,
                  email,
