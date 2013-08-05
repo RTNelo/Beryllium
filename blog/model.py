@@ -246,12 +246,14 @@ class Article(Base):
 
     def __repr__(self):
         str_patter = ''.join(('<Article(',
-                              ', '.join(("'{title}'",
+                              ', '.join(("{id}",
+                                         "'{title}'",
                                          "'{title_for_url}'",
                                          "'{type}'",
                                          "{submit_time}")),
                               ')>'))
-        return str_patter.format(title=self.title,
+        return str_patter.format(id=self.id,
+                                 title=self.title,
                                  title_for_url=self.title_for_url,
                                  type=self.type,
                                  submit_time=self.submit_time,
