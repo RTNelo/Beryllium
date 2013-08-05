@@ -84,9 +84,9 @@ class User(Base):
             nickname(str): the nickname of the user. Should less than 64 bytes
                            long.
             register_ip(str): the ipv4 address of the user when it register the
-                              blog. Must short than 15 bytes. str(register_ip)
-                              will be used as salt_suf when calculate hash
-                              value of a password.
+                              blog. Must be shorter than 15 bytes.
+                              str(register_ip) will be used as salt_suf when
+                              calculate hash value of a password.
             last_login_time(datetime.datetime,
                             default=last_login_time):
                                 the time when the user last login. Should be a
@@ -95,8 +95,8 @@ class User(Base):
             last_login_ip(str,
                           default=register_ip):
                               the ip address where the user last login. Leave
-                              it out will use the register_ip. Must short than
-                              15 bytes, too.
+                              it out will use the register_ip. Must be shorter
+                              than 15 bytes, too.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
@@ -206,7 +206,7 @@ class Article(Base):
             type(str): the type of the raw. Must be one of:
                            'plain': plain text;
                            'md': Markdown;
-                           'rst': reStructedText.
+                           'rst': reStructuredText.
             content(str): the content of the article. If it is None, this
                           function will convert the raw to content by the
                           type above.
