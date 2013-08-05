@@ -62,6 +62,7 @@ nickname	blog/model.py	/^    nickname = Column(types.String(64), nullable=False)
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
 password	blog/model.py	/^    password = Column(types.String(64), nullable=False)$/;"	v	class:User
 pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
+register_ip	blog/model.py	/^    register_ip = Column(types.String(15), nullable=False)$/;"	v	class:User
 register_time	blog/model.py	/^    register_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
 remove_microsecond	blog/utils.py	/^def remove_microsecond(time):$/;"	f
 render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler

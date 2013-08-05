@@ -68,10 +68,10 @@ class User(Base):
                  password,
                  nickname,
                  register_ip,
+                 last_login_time=None,
                  status='user',
                  id=None,
-                 register_time=None,
-                 last_login_time=None):
+                 register_time=None,):
         """
         args:
             email(str): the email adress of the user. Should less than 128
@@ -86,6 +86,11 @@ class User(Base):
                               blog. Must short than 15 bytes. str(register_ip)
                               will be used as salt_suf when calculate hash
                               value of a password.
+            last_login_time(datetime.datetime,
+                            default=last_login_time):
+                                the time when the user last login. Should be a
+                                UTC time too. The microsencond will be leave
+                                out, too.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
@@ -99,11 +104,6 @@ class User(Base):
                               time. And the microsencond will be leave out.
                               str(register_time) will be used as salt_pre when
                               calculate a password hash value.
-            last_login_time(datetime.datetime,
-                            default=last_login_time):
-                                the time when the user last login. Should be a
-                                UTC time too. The microsencond will be leave
-                                out, too.
         """
         self.email = email
         self.nickname = nickname
