@@ -297,7 +297,7 @@ class Comment(Base):
                                    use a value presented by database.
         """
         self.raw = raw
-        self.types = types
+        self.type = type
         self.content = content or utils.content_convert(self.raw, self.type)
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
