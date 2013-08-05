@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""The datamodel of the blog application.
+
+The module will create an engine and a session according to the database
+options. And It will try to create all tables if necessary. It also provide
+some function like commit and rollback. Please use them first although you can
+use session's method as well.
+"""
+
 import datetime
 
 from sqlalchemy import create_engine
