@@ -60,12 +60,14 @@ class User(Base):
     nickname = Column(types.String(64), nullable=False)
     status = Column(types.Enum('host', 'admin', 'user'), nullable=False)
     register_time = Column(types.DateTime, nullable=False)
+    register_ip = Column(types.String(15), nullable=False)
     last_login_time = Column(types.DateTime, nullable=False)
 
     def __init__(self,
                  email,
                  password,
                  nickname,
+                 register_ip,
                  status='user',
                  id=None,
                  register_time=None,
@@ -80,6 +82,8 @@ class User(Base):
                            microsencond) as salt.
             nickname(str): the nickname of the user. Should less than 64 bytes
                            long.
+            register_ip(str): the ipv4 address of the user when it register the
+                              blog. Must short than 15 bytes.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
                              'admin': the administory of the blog;
@@ -99,6 +103,7 @@ class User(Base):
         """
         self.email = email
         self.nickname = nickname
+        self.register_ip = register_ip
         self.status = status
 
         #If register_time is None, just use the utcnow.
@@ -128,14 +133,24 @@ class User(Base):
         return digest
 
     def __repr__(self):
-        str_patter = ("<User({id}, '{email}', '{password}', '{nickname}', "
-                      "'{status}', '{register_time}', '{last_login_time}')>")
+        str_patter = ''.join(('<User(',
+                              ', '.join(("{id}",
+                                         "'{email}'",
+                                         "'{password}'",
+                                         "'{nickname}'",
+                                         "'{status}'",
+                                         "{register_time}",
+                                         "'{register_ip}'",
+                                         "{last_login_time}",
+                                         )),
+                              ')>'))
         return str_patter.format(id=self.id,
                                  email=self.email,
                                  password=self.password,
                                  nickname=self.nickname,
                                  status=self.status,
                                  register_time=self.register_time,
+                                 register_ip=self.register_ip,
                                  last_login_time=self.last_login_time,
                                  )
 
