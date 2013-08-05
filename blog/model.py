@@ -88,19 +88,28 @@ class User(Base):
                                             when commit.
             register_time(datetime.datetime,
                           default=datetime.datetime.utcnow):
-                              the time when the user register.
-                              Should be a UTC time.
+                              the time when the user register. Should be a UTC
+                              time. And the microsencond will be leave out.
             last_login_time(datetime.datetime,
                             default=last_login_time):
                                 the time when the user last login. Should be a
-                                UTC time too.
+                                UTC time too. The microsencond will be leave
+                                out, too.
         """
         self.email = email
         self.nickname = nickname
         self.status = status
-        #If datetime is None, just use the utcnow.
-        self.register_time = register_time or datetime.datetime.utcnow()
-        self.last_login_time = last_login_time or self.register_time
+
+        #If register_time is None, just use the utcnow.
+        register_time = register_time or datetime.datetime.utcnow()
+        #Remove the microsencond to keep in step with data in database.
+        self.register_time = utils.remove_microsecond(register_time)
+
+        #If last_login_time is None, use self.register_time.
+        last_login_time = last_login_time or self.register_time
+        #Then remove the microsencond.
+        self.last_login_time = utils.remove_microsecond(last_login_time)
+
         #Get password's hash value.
         digest = self.get_password_digest(password)
         self.password = digest
