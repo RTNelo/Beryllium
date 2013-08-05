@@ -96,14 +96,14 @@ class User(Base):
                                 UTC time too.
         """
         self.email = email
-        #Hash value converting. 3 times default.
-        digest = utils.hash_repeat(password)
-        self.password = digest
         self.nickname = nickname
         self.status = status
         #If datetime is None, just use the utcnow.
         self.register_time = register_time or datetime.datetime.utcnow()
         self.last_login_time = last_login_time or self.register_time
+        #Hash value converting. 3 times default. Use register_time as salt_pre.
+        digest = utils.hash_repeat(password, salt_pre=str(self.register_time))
+        self.password = digest
 
     def __repr__(self):
         str_patter = ("<User({id}, '{email}', '{password}', '{nickname}', "
