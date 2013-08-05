@@ -8,6 +8,7 @@ import datetime
 
 def hash_repeat(raw, salt_pre='', salt_suf='', time=3):
     """This function will multi-hash a string and return the hash value.
+
     args:
         raw(str): the string you want to get hash value.
         salt_pre(str): the salt added before the raw.
