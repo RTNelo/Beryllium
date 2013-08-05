@@ -101,9 +101,21 @@ class User(Base):
         #If datetime is None, just use the utcnow.
         self.register_time = register_time or datetime.datetime.utcnow()
         self.last_login_time = last_login_time or self.register_time
+        #Get password's hash value.
+        digest = self.get_password_digest(password)
+        self.password = digest
+
+    def get_password_digest(self, password):
+        """Get a password's hash value that self.register_time as salt_pre.
+
+        args:
+            password(str): the password you want to get hash value.
+        return(str):
+            The hash value of the password, self.register_time as salt_pre.
+        """
         #Hash value converting. 3 times default. Use register_time as salt_pre.
         digest = utils.hash_repeat(password, salt_pre=str(self.register_time))
-        self.password = digest
+        return digest
 
     def __repr__(self):
         str_patter = ("<User({id}, '{email}', '{password}', '{nickname}', "
