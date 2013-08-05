@@ -35,12 +35,13 @@ des_of_db_port	blog/options.py	/^des_of_db_port = 'The port of the database serv
 des_of_db_pwd	blog/options.py	/^des_of_db_pwd = 'The password of the db_user of the database server.'$/;"	v
 des_of_db_user	blog/options.py	/^des_of_db_user = 'The user name of the database server.'$/;"	v
 des_of_debug	blog/options.py	/^des_of_debug = 'Blog will enter the debug mode if it is True.'$/;"	v
-email	blog/model.py	/^    email = Column(types.String(128), primary_key=True)$/;"	v	class:User
+email	blog/model.py	/^    email = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:User
 engine	blog/model.py	/^engine = create_engine(url, echo=options.debug)$/;"	v
 filesystem_checks	blog/context.py	/^    filesystem_checks=options.options.debug,  # Track the template file, when$/;"	v
+get_password_hash	blog/model.py	/^    def get_password_hash(self, password):$/;"	m	class:User
 group	blog/options.py	/^               group='application',$/;"	v
 group	blog/options.py	/^               group='database',$/;"	v
-hash_repeat	blog/utils.py	/^def hash_repeat(raw, time=3):$/;"	f
+hash_repeat	blog/utils.py	/^def hash_repeat(raw, salt_pre='', salt_suf='', time=3):$/;"	f
 help	blog/options.py	/^               help=des_of_db_address,$/;"	v
 help	blog/options.py	/^               help=des_of_db_name,$/;"	v
 help	blog/options.py	/^               help=des_of_db_port,$/;"	v
@@ -48,23 +49,25 @@ help	blog/options.py	/^               help=des_of_db_pwd,$/;"	v
 help	blog/options.py	/^               help=des_of_db_user,$/;"	v
 help	blog/options.py	/^               help=des_of_debug,$/;"	v
 host	blog/model.py	/^                         host=options.db_address,$/;"	v
+id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:User
 initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
 input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
-last_login_time	blog/model.py	/^    last_login_time = Column(types.DateTime)$/;"	v	class:User
+last_login_time	blog/model.py	/^    last_login_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
 main	server.py	/^def main():$/;"	f
 metavar	blog/options.py	/^               metavar='BOOL',$/;"	v
 metavar	blog/options.py	/^               metavar='INTEGER',$/;"	v
 metavar	blog/options.py	/^               metavar='STRING',$/;"	v
 module_directory	blog/context.py	/^    module_directory=tempfile.mkdtemp(),    # Create a temp directory to store$/;"	v
-nickname	blog/model.py	/^    nickname = Column(types.String(64))$/;"	v	class:User
+nickname	blog/model.py	/^    nickname = Column(types.String(64), nullable=False)$/;"	v	class:User
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
-password	blog/model.py	/^    password = Column(types.String(64))$/;"	v	class:User
+password	blog/model.py	/^    password = Column(types.String(64), nullable=False)$/;"	v	class:User
 pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
-register_time	blog/model.py	/^    register_time = Column(types.DateTime)$/;"	v	class:User
+register_time	blog/model.py	/^    register_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
+remove_microsecond	blog/utils.py	/^def remove_microsecond(time):$/;"	f
 render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler
 rollback	blog/model.py	/^def rollback():$/;"	f
 session	blog/model.py	/^session = Session()$/;"	v
-status	blog/model.py	/^    status = Column(types.Enum('host', 'admin', 'user'))$/;"	v	class:User
+status	blog/model.py	/^    status = Column(types.Enum('host', 'admin', 'user'), nullable=False)$/;"	v	class:User
 template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
 track	blog/model.py	/^    def track(self):$/;"	m	class:BaseModel
 type	blog/options.py	/^               type=bool,$/;"	v

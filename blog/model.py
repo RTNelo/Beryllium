@@ -72,13 +72,13 @@ class User(Base):
                  last_login_time=None):
         """
         args:
-            email(str): the email adress of the user. Should less than 128 bits
-                        long.
+            email(str): the email adress of the user. Should less than 128
+                        bytes long.
             password(str): the raw password of the user. The __init__ method
                            will calculate and store its hash value
                            automatically. Use last_login_time (left out
                            microsencond) as salt.
-            nickname(str): the nickname of the user. Should less than 64 bits
+            nickname(str): the nickname of the user. Should less than 64 bytes
                            long.
             status(str): the status of the user. Must be one of these values:
                              'host': the owner of the blog;
