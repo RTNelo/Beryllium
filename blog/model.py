@@ -15,7 +15,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import types
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref
 
 import utils
 from options import options
@@ -182,6 +185,11 @@ class Article(Base):
     id = Column(types.Integer, primary_key=True)
     title = Column(types.String(128), unique=True, nullable=False)
     title_for_url = Column(types.String(128), unique=True, nullable=False)
+
+    author_id = Column(types.Integer, ForeignKey('users.id'))
+    #Relationship betweem user and article. Needn't init.
+    author = relationship(User, backref=backref('articles', order_by=id))
+
     raw = Column(types.Text, nullable=True)
     content = Column(types.Text, nullable=True)
     submit_time = Column(types.DateTime, nullable=False)
@@ -191,6 +199,7 @@ class Article(Base):
                  title,
                  title_for_url,
                  raw,
+                 author=None,
                  type='rst',
                  content=None,
                  submit_time=None,
@@ -204,6 +213,9 @@ class Article(Base):
                                 than 128 bytes.
             raw(str): the raw content of the article (such as the markdown
                       file's content).
+            author(User): the author of the article. This method will add itself
+                          to the user's articles list automatically if author is
+                          not None.
             type(str): the type of the raw. Must be one of:
                            'plain': plain text;
                            'md': Markdown;
@@ -227,6 +239,9 @@ class Article(Base):
 
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
+
+        if author is not None:
+            author.articles.append(self)
 
     def __repr__(self):
         str_patter = ''.join(('<Article(',
