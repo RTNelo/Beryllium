@@ -67,8 +67,8 @@ class SessionManager(object):
             expire(datetime.timedelta, default=None):
                     the life time of the new session. If it is Nonw, will use
                     The manager's default_expire.
-        return(Session):
-            Created session.
+        return((str, Session)):
+            A tuple like (key, Created session)
         """
         value = value or dict()
         expire = expire or self.default_expire
@@ -83,7 +83,7 @@ class SessionManager(object):
             if key not in self.storage:
                 break
         self.storage[key] = session
-        return session
+        return (key, session)
 
     def del_session(self, key):
         """Delete a session.
