@@ -159,15 +159,15 @@ class User(Base):
 
     def __repr__(self):
         str_patter = ''.join(('<User(',
-                              ', '.join(("{id}",
-                                         "'{email}'",
-                                         "'{password}'",
-                                         "'{nickname}'",
-                                         "'{status}'",
-                                         "{register_time}",
-                                         "'{register_ip}'",
-                                         "{last_login_time}",
-                                         "'{last_login_ip}'",
+                              ', '.join(("id={id}",
+                                         "email='{email}'",
+                                         "password='{password}'",
+                                         "nickname='{nickname}'",
+                                         "status='{status}'",
+                                         "register_time={register_time}",
+                                         "register_ip='{register_ip}'",
+                                         "last_login_time={last_login_time}",
+                                         "last_login_ip='{last_login_ip}'",
                                          )),
                               ')>'))
         return str_patter.format(id=self.id,
@@ -253,15 +253,17 @@ class Article(Base):
 
     def __repr__(self):
         str_patter = ''.join(('<Article(',
-                              ', '.join(("{id}",
-                                         "'{title}'",
-                                         "'{title_for_url}'",
-                                         "'{type}'",
-                                         "{submit_time}")),
+                              ', '.join(("id={id}",
+                                         "title='{title}'",
+                                         "title_for_url='{title_for_url}'",
+                                         "author_id={author_id}",
+                                         "type='{type}'",
+                                         "submit_time={submit_time}")),
                               ')>'))
         return str_patter.format(id=self.id,
                                  title=self.title,
                                  title_for_url=self.title_for_url,
+                                 author_id=self.author_id,
                                  type=self.type,
                                  submit_time=self.submit_time,
                                  )
@@ -324,11 +326,13 @@ class Comment(Base):
 
     def __repr__(self):
         str_patter = ''.join(('<Comment(',
-                              ', '.join(("{id}",
-                                         "'{type}'",
-                                         "{submit_time}")),
+                              ', '.join(("id={id}",
+                                         "author_id={author_id}",
+                                         "type='{type}'",
+                                         "submit_time={submit_time}")),
                               ')>'))
         return str_patter.format(id=self.id,
+                                 author_id=self.author_id,
                                  type=self.type,
                                  submit_time=self.submit_time,
                                  )
