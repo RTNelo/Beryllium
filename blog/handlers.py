@@ -93,4 +93,4 @@ class LoginHandler(BaseHandler):
             self.render('login.failed.tpl')
         else:
             self.set_current_user(user)
-            self.render('login.successful.tpl')
+            self.render('login.successful.tpl', user=user)
