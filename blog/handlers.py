@@ -74,6 +74,7 @@ class BaseHandler(web.RequestHandler):
 
 class LoginHandler(BaseHandler):
     """Handler handle login request."""
+    @web.addslash
     def get(self):
         """When receive a get request of login, render the login template."""
         self.render('login.tpl')
