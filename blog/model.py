@@ -55,8 +55,8 @@ Base = declarative_base(cls=BaseModel)
 class User(Base):
     """Subclass of a declarative_base defining the structure of users.
 
-    Use self.articles to get a list containing the user's article object (ordered
-    by the article's id).
+    Use self.articles to get a list containing the user's article object
+    (ordered by the article's id).
     """
 
     __tablename__ = 'users'
@@ -234,7 +234,7 @@ class Article(Base):
                           by the type above.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
                     When the author submit the time? Should be a UTC time. If
-                    it is None, this method will use datetime.datetime.utcnow().
+                    it is None, this method will use datetime.datetime.utcnow()
                     And the microsencond will be leave out to keep step with
                     database.
         """
@@ -285,10 +285,15 @@ class Comment(Base):
     content = Column(types.Text, nullable=False)
     submit_time = Column(types.DateTime, nullable=False)
 
+    article_id = Column(types.Integer, ForeignKey('articles.id'))
+    #Relationship betweem Comment and Article.
+    article = relationship(Article, backref=backref('comments', order_by=id))
+
     def __init__(self,
                  raw,
                  type='rst',
                  author=None,
+                 article=None,
                  content=None,
                  submit_time=None,
                  id=None,
@@ -305,8 +310,12 @@ class Comment(Base):
                                           'md': Markdown;
                                           'rst': reStructuredText.
             author(User, default=None): the author of the comment. If it is not
-                                        None, __init__ will append the comment to
-                                        author's comments attribute.
+                                        None, __init__ will append the comment
+                                        to author's comments attribute.
+            article(Article, default=None): the article which own this comment.
+                                            __init__ will append the comment to
+                                            article.comments if article is not
+                                            None.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow():
                     The UTC time when author submit the comment. If it is None,
                     use datetime.datetime.utcnow() as default. Then the
@@ -323,16 +332,20 @@ class Comment(Base):
             self.id = id
         if author is not None:
             author.comments.append(self)
+        if article is not None:
+            article.comments.append(self)
 
     def __repr__(self):
         str_patter = ''.join(('<Comment(',
                               ', '.join(("id={id}",
                                          "author_id={author_id}",
+                                         "article_id={article_id}",
                                          "type='{type}'",
                                          "submit_time={submit_time}")),
                               ')>'))
         return str_patter.format(id=self.id,
                                  author_id=self.author_id,
+                                 article_id=self.article_id,
                                  type=self.type,
                                  submit_time=self.submit_time,
                                  )

@@ -23,12 +23,16 @@ __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:User	file:
 __tablename__	blog/model.py	/^    __tablename__ = 'articles'$/;"	v	class:Article
 __tablename__	blog/model.py	/^    __tablename__ = 'comments'$/;"	v	class:Comment
 __tablename__	blog/model.py	/^    __tablename__ = 'users'$/;"	v	class:User
+article	blog/model.py	/^    article = relationship(Article, backref=backref('comments', order_by=id))$/;"	v	class:Comment
+article_id	blog/model.py	/^    article_id = Column(types.Integer, ForeignKey('articles.id'))$/;"	v	class:Comment
 author	blog/model.py	/^    author = relationship(User, backref=backref('articles', order_by=id))$/;"	v	class:Article
+author	blog/model.py	/^    author = relationship(User, backref=backref('comments', order_by=id))$/;"	v	class:Comment
 author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Article
+author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Comment
 commit	blog/model.py	/^def commit():$/;"	f
 content	blog/model.py	/^    content = Column(types.Text, nullable=False)$/;"	v	class:Comment
 content	blog/model.py	/^    content = Column(types.Text, nullable=True)$/;"	v	class:Article
-content_convert	blog/model.py	/^    def content_convert(raw, type):$/;"	m	class:Article
+content_convert	blog/utils.py	/^def content_convert(raw, type):$/;"	f
 db_address	blog/config.py	/^db_address = '192.168.56.101'$/;"	v
 db_name	blog/config.py	/^db_name = 'blog'$/;"	v
 db_port	blog/config.py	/^db_port = 3306$/;"	v
