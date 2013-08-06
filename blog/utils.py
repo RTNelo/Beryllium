@@ -4,6 +4,7 @@
 
 import hashlib
 import datetime
+import functools
 
 import markdown2
 
@@ -47,3 +48,22 @@ def content_convert(raw, converter=markdown2.markdown):
         The content value. Encoding is UTF-8.
     """
     return converter(raw).encode('utf-8')
+
+
+def apply_args_to_converter(converter, *args, **kwargs):
+    """Apply args to a converter (callable).
+
+    args:
+        converter(callable): the converter you want to apply args on.
+        *args: the args you want to apply.
+        **kwargs: the key-value args you want to apply.
+    return(functools.partial):
+        A callable that equal to converter([args you provide], *args,
+        **kwargs).
+    """
+    return functools.partial(converter, args, kwargs)
+
+
+def apply_args_to_md_converter(*args, **kwargs):
+    """Same as apply_args_to_converter, but converter is markdown2.markdown"""
+    return apply_args_to_converter(markdown2.markdown, *args, **args)
