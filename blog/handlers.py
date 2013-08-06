@@ -34,7 +34,7 @@ class BaseHandler(web.RequestHandler):
 
         Store the session.
         """
-        key = self.session.value.key
+        key = self.session.key
         context.session_manager.storage[key] = self.session
 
     def create_session_for_visitor(self):
@@ -43,7 +43,8 @@ class BaseHandler(web.RequestHandler):
         Will store the IP address for protecting session_id secure cookie
         from being copy.
         """
-        key, self.session = context.session_manager.create_session()
+        self.session = context.session_manager.create_session()
+        key = self.session.key
         self.session.value.ip = self.request.remote_ip
         self.set_secure_cookie('session_id', key)
 

@@ -15,14 +15,16 @@ class SessionStorage(dict):
 
 class Session(object):
     """The session. Store a value and a expire_time."""
-    def __init__(self, expire_time, value=None):
+    def __init__(self, key, expire_time, value=None):
         """
         args:
             expire_time(datetime.datetime): when the session expire. UTC time.
+            key(str): the key of the session in it's SessionStorage.
             value(dict, default=None): use value to init a ObjectDict as
                                        self.value. If it is None, use an empty
                                        dict.
         """
+        self.key = key
         self.expire_time = expire_time
         self.value = tornado.util.ObjectDict(value or dict())
 
@@ -75,15 +77,15 @@ class SessionManager(object):
 
         create_time = datetime.datetime.utcnow()
 
-        session = Session(create_time + expire, value)
         #Get a new key.
         while True:
             key = ''.join([str(create_time)] +
                           random.sample(string.ascii_letters, 10))
             if key not in self.storage:
                 break
+        session = Session(key, create_time + expire, value)
         self.storage[key] = session
-        return (key, session)
+        return session
 
     def del_session(self, key):
         """Delete a session.
