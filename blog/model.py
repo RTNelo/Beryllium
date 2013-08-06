@@ -20,6 +20,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import backref
 
+import markdown2
+
 import utils
 from options import options
 
@@ -208,6 +210,7 @@ class Article(Base):
                  title_for_url,
                  raw,
                  author=None,
+                 converter=markdown2.markdown,
                  content=None,
                  submit_time=None,
                  ):
@@ -223,6 +226,8 @@ class Article(Base):
             author(User, default=None): the author of the article. This method
                           will add itself to the user's articles list
                           automatically if author is not None.
+            converter(callable): It's necessary if content need converting
+                                 from raw. Will use converter(raw) to convert.
             content(str, default=None): the content of the article. If it is
                           None, this function will convert the raw to content.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
@@ -235,7 +240,7 @@ class Article(Base):
         self.title_for_url = title
         self.raw = raw
 
-        self.content = content or utils.content_convert(raw)
+        self.content = content or utils.content_convert(raw, converter)
 
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
@@ -282,6 +287,7 @@ class Comment(Base):
                  raw,
                  author=None,
                  article=None,
+                 converter=markdown2.markdown,
                  content=None,
                  submit_time=None,
                  id=None,
@@ -300,6 +306,8 @@ class Comment(Base):
                                             __init__ will append the comment to
                                             article.comments if article is not
                                             None.
+            converter(callable): It's necessary if content need converting
+                                 from raw. Will use converter(raw) to convert.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow():
                     The UTC time when author submit the comment. If it is None,
                     use datetime.datetime.utcnow() as default. Then the
@@ -308,7 +316,7 @@ class Comment(Base):
                                    use a value presented by database.
         """
         self.raw = raw
-        self.content = content or utils.content_convert(self.raw)
+        self.content = content or utils.content_convert(self.raw, converter)
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
         if id is not None:
