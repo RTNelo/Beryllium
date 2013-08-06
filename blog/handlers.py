@@ -12,6 +12,7 @@ class BaseHandler(web.RequestHandler):
 
     This class shouldn't be used in the request handle behavior.
     """
+
     def prepare(self):
         """Prepare for the handle process.
 
@@ -46,8 +47,13 @@ class BaseHandler(web.RequestHandler):
         self.set_secure_cookie('session_id', key)
 
     def render_string(self, template_name, **kwargs):
-        """
-        Override it to provide mako templates support.
-        """
+        """Override it to provide mako templates support."""
         template = context.template_lookup.get_template(template_name)
         return template.render(**kwargs)
+
+    def get_current_user(self):
+        """Override to determine the current user."""
+        if 'user' in self.session.value:
+            return self.session.value.user
+        else:
+            return None
