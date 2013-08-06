@@ -14,7 +14,7 @@ from blog import application
 def main():
     """Main fuction which will create a HTTPServer listening the 80 port And
     start it."""
-    http_server = httpserver.HTTPServer(application.Application)
+    http_server = httpserver.HTTPServer(application.Application())
     http_server.listen(80)
     ioloop.IOLoop.instance().start()
 
