@@ -12,7 +12,7 @@ import session
 
 #Prepare the TemplateLookup
 template_lookup = lookup.TemplateLookup(
-    ['templates/'],  # Path to look up templates.
+    directories=['blog/templates'],  # Path to look up templates.
     module_directory=tempfile.mkdtemp(),    # Create a temp directory to store
                                             # compiled templates.
     filesystem_checks=options.options.debug,  # Track the template file, when
