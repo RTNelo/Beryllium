@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """The handlers module defines the Handlers used by the blog app."""
+import datetime
 
 from tornado import web
 
@@ -88,9 +89,15 @@ class LoginHandler(BaseHandler):
             password = self.get_argument('password')
         except web.MissingArgumentError:
             self.render('login.failed.tpl')
+            return
         user = model.User.get_user_by_email_and_password(email, password)
         if user is None:
             self.render('login.failed.tpl')
         else:
             self.set_current_user(user)
             self.render('login.successful.tpl', user=user)
+
+            #Update user's information.
+            user.last_login_time = datetime.datetime.utcnow()
+            user.last_login_ip = self.request.remote_ip
+            model.commit()
