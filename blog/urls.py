@@ -11,5 +11,9 @@ Now, the urls is empty yet. Because the handlers have been not writed.
 # This module defines the handlers used by the blog app.
 import handlers
 
-urls = [(),
+from tornado import web
+
+urls = [(r'/login/?', handlers.LoginHandler),
+        #Handle every request out of urls and return a 404 status code.
+        (r'.*', web.ErrorHandler, dict(status_code=404)),
         ]
