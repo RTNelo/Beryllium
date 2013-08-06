@@ -35,6 +35,14 @@ class Session(object):
         """
         return datetime.datetime.utcnow() > self.expire_time
 
+    def reset_expire_time(self, expire_time):
+        """Reset the Session expire time.
+
+        args:
+            expire(datetime.datetime): when the session should be expired.
+        """
+        self.expire_time = expire_time
+
 
 class SessionManager(object):
     """The object manage session.
@@ -86,6 +94,24 @@ class SessionManager(object):
         session = Session(key, create_time + expire, value)
         self.storage[key] = session
         return session
+
+    def refresh_session(self, key, expire=None):
+        """Reset the expire_time of session with key to utcnow + expire.
+
+        args:
+            expire(datetime.timedelta, default=None):
+                    the life time of the session after refresh. Will use the
+                    default_expire of SessionManager if it is None.
+        raise:
+            KeyError: if there is no session with the key. Raise a KeyError.
+        """
+        if key not in self.storage:
+            raise KeyError(('SessionStorage have'
+                            'no session with key {0}').format(key))
+        else:
+            expire = expire or self.default_expire
+            now = datetime.datetime.utcnow()
+            self.storage[key].reset_expire_time(now + expire)
 
     def del_session(self, key):
         """Delete a session.
