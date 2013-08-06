@@ -26,6 +26,8 @@ class BaseHandler(web.RequestHandler):
             session = context.session_manager.storage[session_id]
             if session.value.ip != self.request.remote_ip:
                 self.create_session_for_visitor()
+            else:
+                self.session = session
         else:
             self.create_session_for_visitor()
 
