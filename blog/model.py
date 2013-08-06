@@ -273,6 +273,11 @@ class Comment(Base):
 
     #Base information of a comment.
     id = Column(types.Integer, primary_key=True)
+
+    author_id = Column(types.Integer, ForeignKey('users.id'))
+    #Relationship betweem Comment and User.
+    author = relationship(User, backref=backref('comments', order_by=id))
+
     raw = Column(types.Text, nullable=False)
     type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)
     content = Column(types.Text, nullable=False)
@@ -281,6 +286,7 @@ class Comment(Base):
     def __init__(self,
                  raw,
                  type='rst',
+                 author=None,
                  content=None,
                  submit_time=None,
                  id=None,
@@ -296,6 +302,9 @@ class Comment(Base):
                                           'plain': plain text;
                                           'md': Markdown;
                                           'rst': reStructuredText.
+            author(User, default=None): the author of the comment. If it is not
+                                        None, __init__ will append the comment to
+                                        author's comments attribute.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow():
                     The UTC time when author submit the comment. If it is None,
                     use datetime.datetime.utcnow() as default. Then the
@@ -310,6 +319,8 @@ class Comment(Base):
         self.submit_time = utils.remove_microsecond(submit_time)
         if id is not None:
             self.id = id
+        if author is not None:
+            author.comments.append(self)
 
     def __repr__(self):
         str_patter = ''.join(('<Comment(',
