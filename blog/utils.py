@@ -47,5 +47,5 @@ def content_convert(raw, type):
     """
     #TODO RTNelo (rtnelo@yeah.net)
     #Finish it.
-    #Now it just return the raw. For debug.
+    #Now it just return the raw. For debugging.
     return raw
