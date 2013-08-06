@@ -202,14 +202,12 @@ class Article(Base):
     raw = Column(types.Text, nullable=True)
     content = Column(types.Text, nullable=True)
     submit_time = Column(types.DateTime, nullable=False)
-    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)
 
     def __init__(self,
                  title,
                  title_for_url,
                  raw,
                  author=None,
-                 type='md',
                  content=None,
                  submit_time=None,
                  ):
@@ -225,13 +223,8 @@ class Article(Base):
             author(User, default=None): the author of the article. This method
                           will add itself to the user's articles list
                           automatically if author is not None.
-            type(str, default='md'): the type of the raw. Must be one of:
-                           'plain': plain text;
-                           'md': Markdown;
-                           'rst': reStructuredText.
             content(str, default=None): the content of the article. If it is
-                          None, this function will convert the raw to content
-                          by the type above.
+                          None, this function will convert the raw to content.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
                     When the author submit the time? Should be a UTC time. If
                     it is None, this method will use datetime.datetime.utcnow()
@@ -241,9 +234,8 @@ class Article(Base):
         self.title = title
         self.title_for_url = title
         self.raw = raw
-        self.type = type
 
-        self.content = content or utils.content_convert(raw, self.type)
+        self.content = content or utils.content_convert(raw)
 
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
@@ -257,14 +249,12 @@ class Article(Base):
                                          "title='{title}'",
                                          "title_for_url='{title_for_url}'",
                                          "author_id={author_id}",
-                                         "type='{type}'",
                                          "submit_time={submit_time}")),
                               ')>'))
         return str_patter.format(id=self.id,
                                  title=self.title,
                                  title_for_url=self.title_for_url,
                                  author_id=self.author_id,
-                                 type=self.type,
                                  submit_time=self.submit_time,
                                  )
 
@@ -281,7 +271,6 @@ class Comment(Base):
     author = relationship(User, backref=backref('comments', order_by=id))
 
     raw = Column(types.Text, nullable=False)
-    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)
     content = Column(types.Text, nullable=False)
     submit_time = Column(types.DateTime, nullable=False)
 
@@ -291,7 +280,6 @@ class Comment(Base):
 
     def __init__(self,
                  raw,
-                 type='md',
                  author=None,
                  article=None,
                  content=None,
@@ -305,10 +293,6 @@ class Comment(Base):
             content(str): the content displayed for visitor. If it is None,
                           __init__ will convert the raw and use the result as
                           the content automatically.
-            type(str, default='md'): the type of raw. Must be one of:
-                                          'plain': plain text;
-                                          'md': Markdown;
-                                          'rst': reStructuredText.
             author(User, default=None): the author of the comment. If it is not
                                         None, __init__ will append the comment
                                         to author's comments attribute.
@@ -324,8 +308,7 @@ class Comment(Base):
                                    use a value presented by database.
         """
         self.raw = raw
-        self.type = type
-        self.content = content or utils.content_convert(self.raw, self.type)
+        self.content = content or utils.content_convert(self.raw)
         submit_time = submit_time or datetime.datetime.utcnow()
         self.submit_time = utils.remove_microsecond(submit_time)
         if id is not None:
@@ -340,13 +323,11 @@ class Comment(Base):
                               ', '.join(("id={id}",
                                          "author_id={author_id}",
                                          "article_id={article_id}",
-                                         "type='{type}'",
                                          "submit_time={submit_time}")),
                               ')>'))
         return str_patter.format(id=self.id,
                                  author_id=self.author_id,
                                  article_id=self.article_id,
-                                 type=self.type,
                                  submit_time=self.submit_time,
                                  )
 

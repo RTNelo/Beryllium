@@ -5,6 +5,8 @@
 import hashlib
 import datetime
 
+import markdown2
+
 
 def hash_repeat(raw, salt_pre='', salt_suf='', time=3):
     """This function will multi-hash a string and return the hash value.
@@ -36,16 +38,12 @@ def remove_microsecond(time):
     return time - delta
 
 
-def content_convert(raw, type):
-    """Convert the raw content according to the type.
+def content_convert(raw, converter=markdown2.markdown):
+    """Convert the markdown content to content for visitor.
     args:
         raw(str): raw content need convertint.
-        type(str): what the type of raw is? Must be one of:
-                   'plain': plain text;
-                   'md': Markdown;
-                   'rst': reStructuredText.
+        converter(callable): content_convert will return converter(raw).
+    return(str):
+        The content value. Encoding is UTF-8.
     """
-    #TODO RTNelo (rtnelo@yeah.net)
-    #Finish it.
-    #Now it just return the raw. For debugging.
-    return raw
+    return converter(raw).encode('utf-8')
