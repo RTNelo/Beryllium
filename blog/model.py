@@ -183,6 +183,66 @@ class User(Base):
                                  last_login_ip=self.last_login_ip,
                                  )
 
+    @staticmethod
+    def get_user(identification):
+        """Get user by a identification.
+
+        args:
+            identification(str or int): the identification of the user you want
+                                        to get. If it is str, the method will
+                                        use it as the user's email; if it is
+                                        int, it will be used as the user's id.
+        return(User or None):
+            The user you want to get. If there is no user have the
+            identification return None.
+        """
+        if isinstance(identification, int):
+            return User.get_user_by_id(identification)
+        elif isinstance(identification, str):
+            return User.get_user_by_email(identification)
+
+    @staticmethod
+    def get_user_by_id(id):
+        """Get user by user's id.
+        args:
+            id(int): the id of user.
+        return(User or None):
+            The first user (ordered by id) meet the condition. Or None if no
+            user have the email.
+        """
+        return session.query(User).filter_by(id=id)\
+                                  .order_by(User.id).first()
+
+    @staticmethod
+    def get_user_by_email(email):
+        """Get user by user's email.
+        args:
+            email(str): the email of the user.
+        return(User or None):
+            The first user (ordered by id) meet the condition. Or None if no
+            user have the email.
+        """
+        return session.query(User).filter_by(email=email)\
+                                  .order_by(User.id).first()
+
+    @staticmethod
+    def get_user_by_email_and_password(email, password):
+        """Get user by email and password.
+        args:
+            email(str): the user's email.
+            password(str): the user's raw password. Will get it's hash value
+                           automatically.
+        return(User or None):
+            The first user (ordered by id) meet the condition. Or None if no
+            user have the email.
+        """
+        user = User.get_user_by_email(email)
+        if user is not None and (user.get_password_hash(password) ==
+                                 user.password):
+            return user
+        else:
+            return None
+
 
 class Article(Base):
     """The class of a article object that defining its structure.
