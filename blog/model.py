@@ -209,7 +209,7 @@ class Article(Base):
                  title_for_url,
                  raw,
                  author=None,
-                 type='rst',
+                 type='md',
                  content=None,
                  submit_time=None,
                  ):
@@ -225,7 +225,7 @@ class Article(Base):
             author(User, default=None): the author of the article. This method
                           will add itself to the user's articles list
                           automatically if author is not None.
-            type(str, default='rst'): the type of the raw. Must be one of:
+            type(str, default='md'): the type of the raw. Must be one of:
                            'plain': plain text;
                            'md': Markdown;
                            'rst': reStructuredText.
@@ -291,7 +291,7 @@ class Comment(Base):
 
     def __init__(self,
                  raw,
-                 type='rst',
+                 type='md',
                  author=None,
                  article=None,
                  content=None,
@@ -305,7 +305,7 @@ class Comment(Base):
             content(str): the content displayed for visitor. If it is None,
                           __init__ will convert the raw and use the result as
                           the content automatically.
-            type(str, default='rst'): the type of raw. Must be one of:
+            type(str, default='md'): the type of raw. Must be one of:
                                           'plain': plain text;
                                           'md': Markdown;
                                           'rst': reStructuredText.
