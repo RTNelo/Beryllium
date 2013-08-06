@@ -64,5 +64,14 @@ options.define('db_name',
                group='database',
                )
 
+des_of_cookie_secret = 'A long random secret string for secure cookie.'
+options.define('cookie_secret',
+               default='',
+               type=str,
+               help=des_of_cookie_secret,
+               metavar='LONG_STRING',
+               group='application',
+               )
+
 #Parse the config.py
 options.parse_config_file('blog/config.py')

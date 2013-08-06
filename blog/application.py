@@ -18,5 +18,6 @@ class Application(web.Application):
         self.app_urls = urls.urls
 
         super(Application, self).__init__(self.app_urls,
-                                          debug=options.debug
+                                          debug=options.debug,
+                                          cookie_secret=options.cookie_secret,
                                           )

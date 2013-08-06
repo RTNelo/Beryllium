@@ -22,3 +22,6 @@ db_pwd = ''
 
 #The database name of the database server.
 db_name = 'blog'
+
+#A long random string for secure cookie.
+cookie_secret = ''
