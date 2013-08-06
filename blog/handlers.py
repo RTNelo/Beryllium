@@ -12,12 +12,38 @@ class BaseHandler(web.RequestHandler):
 
     This class shouldn't be used in the request handle behavior.
     """
-    def initialize(self):
+    def prepare(self):
+        """Prepare for the handle process.
+
+        Will check the vistor's secure cookie to get or create a session.
+        Will use visitor's IP address to protect the secure cookie from
+        being copy.
         """
-        Override to prepare for the handler.
+        session_id = self.get_secure_cookie('session_id')
+        if session_id in context.session_manager.storage:
+            session = context.session_manager.storage[session_id]
+            if session.value.ip != self.request.remote_ip:
+                self.create_session_for_visitor()
+        else:
+            self.create_session_for_visitor()
+
+    def finish(self):
+        """Clean up process.
+
+        Store the session.
         """
-        #It's still empty now.
-        pass
+        key = self.session.value.key
+        context.session_manager.storage[key] = self.session
+
+    def create_session_for_visitor(self):
+        """Create a new session and set the session_id secure cookie.
+
+        Will store the IP address for protecting session_id secure cookie
+        from being copy.
+        """
+        key, self.session = context.session_manager.create_session()
+        self.session.value.ip = self.request.remote_ip
+        self.set_secure_cookie('session_id', key)
 
     def render_string(self, template_name, **kwargs):
         """

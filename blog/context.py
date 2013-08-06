@@ -7,6 +7,7 @@ import tempfile
 from mako import lookup
 
 import options
+import session
 
 
 #Prepare the TemplateLookup
@@ -18,3 +19,6 @@ template_lookup = lookup.TemplateLookup(
                                               # it is modified, reload it.
     input_encoding='utf-8',  # Encoding of the template files.
 )
+
+#Prepare the SessionManager.
+session_manager = session.SessionManager()
