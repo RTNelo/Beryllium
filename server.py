@@ -16,6 +16,7 @@ def main():
     start it."""
     http_server = httpserver.HTTPServer(application.Application())
     http_server.listen(80)
+    print 'HTTPServer listening 80 will start now.'
     ioloop.IOLoop.instance().start()
 
 if __name__ == '__main__':
