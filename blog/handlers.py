@@ -28,7 +28,7 @@ class BaseHandler(web.RequestHandler):
         else:
             self.create_session_for_visitor()
 
-    def finish(self):
+    def on_finish(self):
         """Clean up process.
 
         Store the session.
