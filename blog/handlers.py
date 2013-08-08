@@ -57,7 +57,9 @@ class BaseHandler(web.RequestHandler):
     def render_string(self, template_name, **kwargs):
         """Override it to provide mako templates support."""
         template = context.template_lookup.get_template(template_name)
-        return template.render(**kwargs)
+        namespace = self.get_template_namespace()
+        namespace.update(kwargs)
+        return template.render(**namespace)
 
     def get_current_user(self):
         """Override to determine the current user."""
