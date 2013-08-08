@@ -28,6 +28,7 @@ class Cron(threading.Thread):
     def add_timer_task(self, task, interval):
         """Add a task which will be excute time by time with a interval.
 
+        The task will be started interval time after invoking this method.
         args:
             task(callable): task to run.
             interval(datetime.timedelta): how long the interval is.
