@@ -10,29 +10,51 @@ Base	blog/model.py	/^Base = declarative_base(cls=BaseModel)$/;"	v
 BaseHandler	blog/handlers.py	/^class BaseHandler(web.RequestHandler):$/;"	c
 BaseModel	blog/model.py	/^class BaseModel(object):$/;"	c
 Comment	blog/model.py	/^class Comment(Base):$/;"	c
+Cron	blog/cron.py	/^class Cron(threading.Thread):$/;"	c
+LoginHandler	blog/handlers.py	/^class LoginHandler(BaseHandler):$/;"	c
 Session	blog/model.py	/^Session = sessionmaker(bind=engine)$/;"	v
+Session	blog/session.py	/^class Session(object):$/;"	c
+SessionManager	blog/session.py	/^class SessionManager(object):$/;"	c
+SessionStorage	blog/session.py	/^class SessionStorage(dict):$/;"	c
 User	blog/model.py	/^class User(Base):$/;"	c
+_Task	blog/cron.py	/^class _Task(object):$/;"	c
 __all__	blog/__init__.py	/^__all__ = ['application',$/;"	v
+__call__	blog/cron.py	/^    def __call__(self):$/;"	m	class:_Task	file:
 __init__	blog/application.py	/^    def __init__(self):$/;"	m	class:Application
+__init__	blog/cron.py	/^    def __init__(self):$/;"	m	class:Cron
+__init__	blog/cron.py	/^    def __init__(self, callable, interval, ioloop):$/;"	m	class:_Task
 __init__	blog/model.py	/^    def __init__(self,$/;"	m	class:Article
 __init__	blog/model.py	/^    def __init__(self,$/;"	m	class:Comment
 __init__	blog/model.py	/^    def __init__(self,$/;"	m	class:User
+__init__	blog/session.py	/^    def __init__(self, key, expire_time, value=None):$/;"	m	class:Session
+__init__	blog/session.py	/^    def __init__(self,$/;"	m	class:SessionManager
 __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:Article	file:
 __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:Comment	file:
 __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:User	file:
 __tablename__	blog/model.py	/^    __tablename__ = 'articles'$/;"	v	class:Article
 __tablename__	blog/model.py	/^    __tablename__ = 'comments'$/;"	v	class:Comment
 __tablename__	blog/model.py	/^    __tablename__ = 'users'$/;"	v	class:User
+add_callback	blog/cron.py	/^    def add_callback(self):$/;"	m	class:_Task
+add_timer_task	blog/cron.py	/^    def add_timer_task(self, task, interval):$/;"	m	class:Cron
+apply_args_to_converter	blog/utils.py	/^def apply_args_to_converter(converter, *args, **kwargs):$/;"	f
+apply_args_to_md_converter	blog/utils.py	/^def apply_args_to_md_converter(*args, **kwargs):$/;"	f
 article	blog/model.py	/^    article = relationship(Article, backref=backref('comments', order_by=id))$/;"	v	class:Comment
 article_id	blog/model.py	/^    article_id = Column(types.Integer, ForeignKey('articles.id'))$/;"	v	class:Comment
 author	blog/model.py	/^    author = relationship(User, backref=backref('articles', order_by=id))$/;"	v	class:Article
 author	blog/model.py	/^    author = relationship(User, backref=backref('comments', order_by=id))$/;"	v	class:Comment
 author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Article
 author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Comment
+clean	blog/context.py	/^def clean():$/;"	f
+clean_expired_session	blog/session.py	/^    def clean_expired_session(self):$/;"	m	class:SessionManager
+close	blog/cron.py	/^    def close(self):$/;"	m	class:Cron
 commit	blog/model.py	/^def commit():$/;"	f
 content	blog/model.py	/^    content = Column(types.Text, nullable=False)$/;"	v	class:Comment
 content	blog/model.py	/^    content = Column(types.Text, nullable=True)$/;"	v	class:Article
-content_convert	blog/utils.py	/^def content_convert(raw, type):$/;"	f
+content_convert	blog/utils.py	/^def content_convert(raw, converter=markdown2.markdown):$/;"	f
+cookie_secret	blog/config.py	/^cookie_secret = 'g7UfxJ3ZqY_brkEr4AnJV2NFd9Q66yKXEJYpfJ6j3fc26DQZ7ZboRoghLnnK6JHqUwHbChNgnMi7XWaAjwZunSnb3dsgd6Cm8oq_yeMHfxwDoyaEUyyCU8SmEtKxNr9ssrVs9STzXgYtkNph9NZCGJzt2mRH4M8S9YRg75iBV4SD6ZtbRNR4YxXoL2KeZghvA44friBzJsKdp7jwFmRS3nnvsMoK6BA4guWBTSxV4X_QNcCibjBcXQ9yKDyMmhBkC7XomrgGqjGhiobg6WnE5tD8ynnL5YaaY7_QCJ_WLgWg8wKCHVWTXaqsqsGcoFgH2ris4yzJ_vrbJbf33DGTZYH8gawYYbeKLjgBmtsRJFPgzi7xmDzWaLBiewp5DQPygjkRP6S5T7Cw5dTYFKGKoGp_Egystykxz4SPfiCqUrPBYaiY8qpJ6xrcsKe_Nb9y_2_FLueyKxmrhDSWiBV8yiTqTXjwWtLwS4Sfui3QuD9svckJ5SwYxoYcNyApkLnrgep8iE__65HTiGGRSUTB5SxT5k9KntKhFDFosnkpR8CF85ZpByMfUPTpR6bY6hyPCJcB4JR2vxoMgS9bAThfF5Zx3MxpzQ5a9zyfj4oWU2pbfMm8xHxzYNwQYJjcSsJTyV_JAzwzxj74DTaK_LQW44HcZk98vbKQ2B3PinSUoUKV5di8V7js2MmyB4AfSYKtyoHrcynY3gLW9uEHkwo_pRxDbBCegyHn5gmVLwMYiNansmPe9sUD9HLfmU7avzd5APCBVekzwsaFAb5NHv4SHSvEy5Hj33jxpbW3jGgJ7bXZ_aP9gavjpGnhNXgXYxYtg_xCNm9b8n5uxQ_MRCcJJKmJGdKKaZapVCV9Fv3qf97ePq7hKA2zEneaeUizMcJSBczDuRAriJLs9phyxSvQzWB8S34Gu_wRhdiu58Qf5NYWf2HvgV2G75CDsu2RmWGK9nN6e_JoTiP3Q592KGggdNDTKT8Fc9yHaAMyszy6b8WS_yvWounbzza6qRhp8LSy'$/;"	v
+create_session	blog/session.py	/^    def create_session(self, value=None, expire=None):$/;"	m	class:SessionManager
+create_session_for_visitor	blog/handlers.py	/^    def create_session_for_visitor(self):$/;"	m	class:BaseHandler
+cron_runner	blog/context.py	/^cron_runner = cron.Cron()$/;"	v
 db_address	blog/config.py	/^db_address = '192.168.56.101'$/;"	v
 db_name	blog/config.py	/^db_name = 'blog'$/;"	v
 db_port	blog/config.py	/^db_port = 3306$/;"	v
@@ -46,19 +68,30 @@ default	blog/options.py	/^               default='blog',$/;"	v
 default	blog/options.py	/^               default='root',$/;"	v
 default	blog/options.py	/^               default=3306,$/;"	v
 default	blog/options.py	/^               default=False,$/;"	v
+del_session	blog/session.py	/^    def del_session(self, key):$/;"	m	class:SessionManager
+des_of_cookie_secret	blog/options.py	/^des_of_cookie_secret = 'A long random secret string for secure cookie.'$/;"	v
 des_of_db_address	blog/options.py	/^des_of_db_address = 'The IP Address of the database server.'$/;"	v
 des_of_db_name	blog/options.py	/^des_of_db_name = 'The name of the database on the database server.'$/;"	v
 des_of_db_port	blog/options.py	/^des_of_db_port = 'The port of the database server.'$/;"	v
 des_of_db_pwd	blog/options.py	/^des_of_db_pwd = 'The password of the db_user of the database server.'$/;"	v
 des_of_db_user	blog/options.py	/^des_of_db_user = 'The user name of the database server.'$/;"	v
 des_of_debug	blog/options.py	/^des_of_debug = 'Blog will enter the debug mode if it is True.'$/;"	v
+directories	blog/context.py	/^    directories=['blog\/templates'],  # Path to look up templates.$/;"	v
 email	blog/model.py	/^    email = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:User
 engine	blog/model.py	/^engine = create_engine(url, echo=options.debug)$/;"	v
+expired	blog/session.py	/^    def expired(self):$/;"	m	class:Session
 filesystem_checks	blog/context.py	/^    filesystem_checks=options.options.debug,  # Track the template file, when$/;"	v
+get	blog/handlers.py	/^    def get(self):$/;"	m	class:LoginHandler
+get_current_user	blog/handlers.py	/^    def get_current_user(self):$/;"	m	class:BaseHandler
 get_password_hash	blog/model.py	/^    def get_password_hash(self, password):$/;"	m	class:User
+get_user	blog/model.py	/^    def get_user(identification):$/;"	m	class:User
+get_user_by_email	blog/model.py	/^    def get_user_by_email(email):$/;"	m	class:User
+get_user_by_email_and_password	blog/model.py	/^    def get_user_by_email_and_password(email, password):$/;"	m	class:User
+get_user_by_id	blog/model.py	/^    def get_user_by_id(id):$/;"	m	class:User
 group	blog/options.py	/^               group='application',$/;"	v
 group	blog/options.py	/^               group='database',$/;"	v
 hash_repeat	blog/utils.py	/^def hash_repeat(raw, salt_pre='', salt_suf='', time=3):$/;"	f
+help	blog/options.py	/^               help=des_of_cookie_secret,$/;"	v
 help	blog/options.py	/^               help=des_of_db_address,$/;"	v
 help	blog/options.py	/^               help=des_of_db_name,$/;"	v
 help	blog/options.py	/^               help=des_of_db_port,$/;"	v
@@ -69,39 +102,46 @@ host	blog/model.py	/^                         host=options.db_address,$/;"	v
 id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:Article
 id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:Comment
 id	blog/model.py	/^    id = Column(types.Integer, primary_key=True)$/;"	v	class:User
-initialize	blog/handlers.py	/^    def initialize(self):$/;"	m	class:BaseHandler
 input_encoding	blog/context.py	/^    input_encoding='utf-8',  # Encoding of the template files.$/;"	v
 last_login_ip	blog/model.py	/^    last_login_ip = Column(types.String(15), nullable=False)$/;"	v	class:User
 last_login_time	blog/model.py	/^    last_login_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
 main	server.py	/^def main():$/;"	f
 metavar	blog/options.py	/^               metavar='BOOL',$/;"	v
 metavar	blog/options.py	/^               metavar='INTEGER',$/;"	v
+metavar	blog/options.py	/^               metavar='LONG_STRING',$/;"	v
 metavar	blog/options.py	/^               metavar='STRING',$/;"	v
 module_directory	blog/context.py	/^    module_directory=tempfile.mkdtemp(),    # Create a temp directory to store$/;"	v
 nickname	blog/model.py	/^    nickname = Column(types.String(64), nullable=False)$/;"	v	class:User
+on_finish	blog/handlers.py	/^    def on_finish(self):$/;"	m	class:BaseHandler
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
 password	blog/model.py	/^    password = Column(types.String(64), nullable=False)$/;"	v	class:User
+post	blog/handlers.py	/^    def post(self):$/;"	m	class:LoginHandler
+prepare	blog/handlers.py	/^    def prepare(self):$/;"	m	class:BaseHandler
 pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
 raw	blog/model.py	/^    raw = Column(types.Text, nullable=False)$/;"	v	class:Comment
 raw	blog/model.py	/^    raw = Column(types.Text, nullable=True)$/;"	v	class:Article
+refresh_session	blog/session.py	/^    def refresh_session(self, key, expire=None):$/;"	m	class:SessionManager
 register_ip	blog/model.py	/^    register_ip = Column(types.String(15), nullable=False)$/;"	v	class:User
 register_time	blog/model.py	/^    register_time = Column(types.DateTime, nullable=False)$/;"	v	class:User
 remove_microsecond	blog/utils.py	/^def remove_microsecond(time):$/;"	f
 render_string	blog/handlers.py	/^    def render_string(self, template_name, **kwargs):$/;"	m	class:BaseHandler
+reset_expire_time	blog/session.py	/^    def reset_expire_time(self, expire_time):$/;"	m	class:Session
 rollback	blog/model.py	/^def rollback():$/;"	f
+run	blog/cron.py	/^    def run(self):$/;"	m	class:Cron
 session	blog/model.py	/^session = Session()$/;"	v
+session_manager	blog/context.py	/^session_manager = session.SessionManager()$/;"	v
+set_current_user	blog/handlers.py	/^    def set_current_user(self, user):$/;"	m	class:BaseHandler
 status	blog/model.py	/^    status = Column(types.Enum('host', 'admin', 'user'), nullable=False)$/;"	v	class:User
+stop	blog/cron.py	/^    def stop(self):$/;"	m	class:Cron
 submit_time	blog/model.py	/^    submit_time = Column(types.DateTime, nullable=False)$/;"	v	class:Article
 submit_time	blog/model.py	/^    submit_time = Column(types.DateTime, nullable=False)$/;"	v	class:Comment
 template_lookup	blog/context.py	/^template_lookup = lookup.TemplateLookup($/;"	v
 title	blog/model.py	/^    title = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:Article
 title_for_url	blog/model.py	/^    title_for_url = Column(types.String(128), unique=True, nullable=False)$/;"	v	class:Article
 track	blog/model.py	/^    def track(self):$/;"	m	class:BaseModel
-type	blog/model.py	/^    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)$/;"	v	class:Article
-type	blog/model.py	/^    type = Column(types.Enum('plain', 'md', 'rst'), nullable=False)$/;"	v	class:Comment
 type	blog/options.py	/^               type=bool,$/;"	v
 type	blog/options.py	/^               type=int,$/;"	v
 type	blog/options.py	/^               type=str,$/;"	v
 url	blog/model.py	/^url = url_pattern.format(user=options.db_user,$/;"	v
 url_pattern	blog/model.py	/^url_pattern = 'mysql+pymysql:\/\/{user}:{pwd}@{host}\/{dbname}'$/;"	v
-urls	blog/urls.py	/^urls = [(),$/;"	v
+urls	blog/urls.py	/^urls = [(r'\/login\/?', handlers.LoginHandler),$/;"	v

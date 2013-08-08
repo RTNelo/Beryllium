@@ -8,6 +8,7 @@ from mako import lookup
 
 import options
 import session
+import cron
 
 
 #Prepare the TemplateLookup
@@ -22,3 +23,14 @@ template_lookup = lookup.TemplateLookup(
 
 #Prepare the SessionManager.
 session_manager = session.SessionManager()
+
+#Create and start a cron task runner.
+cron_runner = cron.Cron()
+cron_runner.start()
+
+
+def clean():
+    """Clean up the context. It will stop and close the cron_runner."""
+    cron_runner.stop()
+    cron_runner.join()
+    cron_runner.close()
