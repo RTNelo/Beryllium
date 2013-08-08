@@ -4,8 +4,6 @@
 
 urls declare the relationship between the handlers and the urls. In another
 word, it defines a url should be handled by which handler.
-
-Now, the urls is empty yet. Because the handlers have been not writed.
 """
 
 # This module defines the handlers used by the blog app.
