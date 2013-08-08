@@ -28,6 +28,9 @@ class BaseHandler(web.RequestHandler):
             if session.value.ip != self.request.remote_ip:
                 self.create_session_for_visitor()
             else:
+                #Refresh (extend the life time of) the session.
+                context.session_manager.refresh_session(session_id)
+
                 self.session = session
         else:
             self.create_session_for_visitor()
