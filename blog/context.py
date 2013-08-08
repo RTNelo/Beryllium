@@ -3,6 +3,7 @@
 """This module defines some useful object for the blog app."""
 
 import tempfile
+import datetime
 
 from mako import lookup
 
@@ -27,6 +28,10 @@ session_manager = session.SessionManager()
 #Create and start a cron task runner.
 cron_runner = cron.Cron()
 cron_runner.start()
+
+#Clean expired session once an hour.
+cron_runner.add_timer_task(session_manager.clean_expired_session,
+                           datetime.timedelta(hours=1))
 
 
 def clean():
