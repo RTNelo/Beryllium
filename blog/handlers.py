@@ -85,6 +85,12 @@ class RegisterHandler(BaseHandler):
         self.render('register.tpl')
 
     def post(self):
+        """Check the request's email and nickname and create a User.
+
+        The request must have email, password, nickname argument and the email
+        and nickname must be unique in the database. Then create a user object
+        for it and commit to the database.
+        """
         try:
             email = self.get_argument('email')
             password = self.get_argument('password')
@@ -92,7 +98,8 @@ class RegisterHandler(BaseHandler):
         except web.MissingArgumentError:
             self.render('register.failed.tpl')
             return
-        if not model.User.have_user(email):
+        if (not model.User.have_user(email) and
+                not model.User.have_user(nickname, is_nickname=True)):
             user = model.User(email,
                               password,
                               nickname,
