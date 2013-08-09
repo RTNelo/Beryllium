@@ -13,6 +13,7 @@ from tornado import web
 
 urls = [(r'/login/?', handlers.LoginHandler),
         (r'/register/?', handlers.RegisterHandler),
+        (r'/user(?:/(\d+))?/?', handlers.UserInfoHandler),
         #Handle every request out of urls and return a 404 status code.
         (r'.*', web.ErrorHandler, dict(status_code=404)),
         ]

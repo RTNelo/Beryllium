@@ -61,6 +61,12 @@ class BaseHandler(web.RequestHandler):
         namespace.update(kwargs)
         return template.render(**namespace)
 
+    def get_template_namespace(self):
+        """Override to provide some common variables to template."""
+        return dict(request=self.request,
+                    user=self.get_current_user()
+                    )
+
     def get_current_user(self):
         """Override to determine the current user."""
         if 'user' in self.session.value:
@@ -137,9 +143,33 @@ class LoginHandler(BaseHandler):
             self.render('login.failed.tpl')
         else:
             self.set_current_user(user)
-            self.render('login.successful.tpl', user=user)
+            self.render('login.successful.tpl')
 
             #Update user's information.
             user.last_login_time = datetime.datetime.utcnow()
             user.last_login_ip = self.request.remote_ip
             model.commit()
+
+
+class UserInfoHandler(BaseHandler):
+    """Handler of displaying user's information."""
+    @web.addslash
+    def get(self, user_id=None):
+        """Render the user_info template.
+
+        If user_id is not None, get_user by the user id then set template args
+        to the user if the get_user return is not None, else write 404 error. if
+        the user_id is None, and get_current_user is not None, just render the
+        user_info template for displaying current user's information, if
+        get_current_user is None, write 404 error.
+        """
+        if user_id is not None:
+            user = model.User.get_user(int(user_id))
+            if user is not None:
+                self.render('user_info.tpl', user=user)
+            else:
+                self.write_error(404)
+        elif self.get_current_user() is not None:
+            self.render('user_info.tpl')
+        else:
+            self.write_error(404)
