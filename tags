@@ -12,6 +12,7 @@ BaseModel	blog/model.py	/^class BaseModel(object):$/;"	c
 Comment	blog/model.py	/^class Comment(Base):$/;"	c
 Cron	blog/cron.py	/^class Cron(threading.Thread):$/;"	c
 LoginHandler	blog/handlers.py	/^class LoginHandler(BaseHandler):$/;"	c
+RegisterHandler	blog/handlers.py	/^class RegisterHandler(BaseHandler):$/;"	c
 Session	blog/model.py	/^Session = sessionmaker(bind=engine)$/;"	v
 Session	blog/session.py	/^class Session(object):$/;"	c
 SessionManager	blog/session.py	/^class SessionManager(object):$/;"	c
@@ -45,6 +46,7 @@ author	blog/model.py	/^    author = relationship(User, backref=backref('comments
 author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Article
 author_id	blog/model.py	/^    author_id = Column(types.Integer, ForeignKey('users.id'))$/;"	v	class:Comment
 clean	blog/context.py	/^def clean():$/;"	f
+clean	server.py	/^def clean():$/;"	f
 clean_expired_session	blog/session.py	/^    def clean_expired_session(self):$/;"	m	class:SessionManager
 close	blog/cron.py	/^    def close(self):$/;"	m	class:Cron
 commit	blog/model.py	/^def commit():$/;"	f
@@ -61,7 +63,7 @@ db_port	blog/config.py	/^db_port = 3306$/;"	v
 db_pwd	blog/config.py	/^db_pwd = 'XDHoAJomqZaxcLpxkZu7jWZ8KxHq9a'$/;"	v
 db_user	blog/config.py	/^db_user = 'blog'$/;"	v
 dbname	blog/model.py	/^                         dbname=options.db_name,$/;"	v
-debug	blog/config.py	/^debug = True$/;"	v
+debug	blog/config.py	/^debug = False$/;"	v
 default	blog/options.py	/^               default='',$/;"	v
 default	blog/options.py	/^               default='127.0.0.1',$/;"	v
 default	blog/options.py	/^               default='blog',$/;"	v
@@ -82,6 +84,7 @@ engine	blog/model.py	/^engine = create_engine(url, echo=options.debug)$/;"	v
 expired	blog/session.py	/^    def expired(self):$/;"	m	class:Session
 filesystem_checks	blog/context.py	/^    filesystem_checks=options.options.debug,  # Track the template file, when$/;"	v
 get	blog/handlers.py	/^    def get(self):$/;"	m	class:LoginHandler
+get	blog/handlers.py	/^    def get(self):$/;"	m	class:RegisterHandler
 get_current_user	blog/handlers.py	/^    def get_current_user(self):$/;"	m	class:BaseHandler
 get_password_hash	blog/model.py	/^    def get_password_hash(self, password):$/;"	m	class:User
 get_user	blog/model.py	/^    def get_user(identification):$/;"	m	class:User
@@ -91,6 +94,10 @@ get_user_by_id	blog/model.py	/^    def get_user_by_id(id):$/;"	m	class:User
 group	blog/options.py	/^               group='application',$/;"	v
 group	blog/options.py	/^               group='database',$/;"	v
 hash_repeat	blog/utils.py	/^def hash_repeat(raw, salt_pre='', salt_suf='', time=3):$/;"	f
+have_user	blog/model.py	/^    def have_user(identification, is_nickname=False):$/;"	m	class:User
+have_user_with_email	blog/model.py	/^    def have_user_with_email(email):$/;"	m	class:User
+have_user_with_id	blog/model.py	/^    def have_user_with_id(id):$/;"	m	class:User
+have_user_with_nickname	blog/model.py	/^    def have_user_with_nickname(nickname):$/;"	m	class:User
 help	blog/options.py	/^               help=des_of_cookie_secret,$/;"	v
 help	blog/options.py	/^               help=des_of_db_address,$/;"	v
 help	blog/options.py	/^               help=des_of_db_name,$/;"	v
@@ -111,11 +118,12 @@ metavar	blog/options.py	/^               metavar='INTEGER',$/;"	v
 metavar	blog/options.py	/^               metavar='LONG_STRING',$/;"	v
 metavar	blog/options.py	/^               metavar='STRING',$/;"	v
 module_directory	blog/context.py	/^    module_directory=tempfile.mkdtemp(),    # Create a temp directory to store$/;"	v
-nickname	blog/model.py	/^    nickname = Column(types.String(64), nullable=False)$/;"	v	class:User
+nickname	blog/model.py	/^    nickname = Column(types.String(64), unique=True, nullable=False)$/;"	v	class:User
 on_finish	blog/handlers.py	/^    def on_finish(self):$/;"	m	class:BaseHandler
 options	blog/options.py	/^options = options_module.OptionParser()$/;"	v
 password	blog/model.py	/^    password = Column(types.String(64), nullable=False)$/;"	v	class:User
 post	blog/handlers.py	/^    def post(self):$/;"	m	class:LoginHandler
+post	blog/handlers.py	/^    def post(self):$/;"	m	class:RegisterHandler
 prepare	blog/handlers.py	/^    def prepare(self):$/;"	m	class:BaseHandler
 pwd	blog/model.py	/^                         pwd=options.db_pwd,$/;"	v
 raw	blog/model.py	/^    raw = Column(types.Text, nullable=False)$/;"	v	class:Comment

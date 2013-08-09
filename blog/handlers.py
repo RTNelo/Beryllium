@@ -77,6 +77,32 @@ class BaseHandler(web.RequestHandler):
         self.session.value.user = user
 
 
+class RegisterHandler(BaseHandler):
+    """Handle register request."""
+    @web.addslash
+    def get(self):
+        """Render the register template."""
+        self.render('register.tpl')
+
+    def post(self):
+        try:
+            email = self.get_argument('email')
+            password = self.get_argument('password')
+            nickname = self.get_argument('nickname')
+        except web.MissingArgumentError:
+            self.render('register.failed.tpl')
+            return
+        if not model.User.have_user(email):
+            user = model.User(email,
+                              password,
+                              nickname,
+                              self.request.remote_ip)
+            user.track()
+            model.commit()
+        else:
+            self.render('register.failed.tpl')
+
+
 class LoginHandler(BaseHandler):
     """Handler handle login request."""
     @web.addslash
