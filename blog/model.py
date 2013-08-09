@@ -243,6 +243,51 @@ class User(Base):
         else:
             return None
 
+    @staticmethod
+    def have_user(identification):
+        """Is there a user with this identification?
+
+        args:
+            identification(int or str): the identification of the user. If it
+                                        is an integer, it will be used as
+                                        the user's id. If it is a string,
+                                        it will be used as the user's email.
+        return(bool):
+            True if we have the user. Otherwise, return False.
+        raise:
+            TypeError: If identification is not an int or a string.
+        """
+        if isinstance(identification, int):
+            return User.have_user_with_id(identification)
+        elif isinstance(identification, str):
+            return User.have_user_with_email(identification)
+        else:
+            raise TypeError('Identification must be an int or string.')
+
+    @staticmethod
+    def have_user_with_id(id):
+        """Is there a user with this id.
+
+        args:
+            id(int): the id of the user.
+        return(bool):
+            True if we have a user with the id. Otherwise, return False.
+        """
+        count = session.query(User).filter_by(id=id).count()
+        return count > 0
+
+    @staticmethod
+    def have_user_with_email(email):
+        """Is there a user with this email.
+
+        args:
+            email(str): the user's email.
+        return(bool):
+            True if we have a user with the email. Otherwise, return False.
+        """
+        count = session.query(User).filter_by(email).count()
+        return count > 0
+
 
 class Article(Base):
     """The class of a article object that defining its structure.
