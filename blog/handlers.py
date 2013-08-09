@@ -107,6 +107,8 @@ class RegisterHandler(BaseHandler):
                               self.request.remote_ip)
             user.track()
             model.commit()
+            self.set_current_user(user)
+            self.render('register.successful.tpl')
         else:
             self.render('register.failed.tpl')
 
