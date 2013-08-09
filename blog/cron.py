@@ -30,8 +30,10 @@ class Cron(threading.Thread):
 
         The task will be started interval time after invoking this method.
         args:
-            task(callable): task to run.
-            interval(datetime.timedelta): how long the interval is.
+            task(callable):
+                Task to run.
+            interval(datetime.timedelta):
+                How long the interval is.
         """
         task = _Task(task, interval, self.ioloop)
         task.add_callback()
