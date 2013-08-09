@@ -195,11 +195,16 @@ class User(Base):
         return(User or None):
             The user you want to get. If there is no user have the
             identification return None.
+        raise:
+            TypeError: if identification is not an int or str.
+
         """
         if isinstance(identification, int):
             return User.get_user_by_id(identification)
         elif isinstance(identification, str):
             return User.get_user_by_email(identification)
+        else:
+            raise TypeError('Identification must be an int or string.')
 
     @staticmethod
     def get_user_by_id(id):
