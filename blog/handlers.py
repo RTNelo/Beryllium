@@ -102,7 +102,7 @@ class RegisterHandler(BaseHandler):
             email = self.get_argument('email')
             password = self.get_argument('password')
             nickname = self.get_argument('nickname')
-        except web.MissingArgumentError:
+        except (web.MissingArgumentError, ValueError):
             self.render('register.failed.tpl')
             return
         if (not model.User.have_user(email) and
@@ -170,6 +170,6 @@ class UserInfoHandler(BaseHandler):
             else:
                 self.write_error(404)
         elif self.get_current_user() is not None:
-            self.render('user_info.tpl')
+            self.render('user_info.tpl', user=self.get_current_user())
         else:
             self.write_error(404)

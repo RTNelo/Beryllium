@@ -125,7 +125,11 @@ class User(Base):
                 session when commit.
         """
         self.email = email
+        if len(str(email)) > 128:
+            raise ValueError('email should be shorter than 128 bytes.')
         self.nickname = nickname
+        if len(str(nickname)) > 64:
+            raise ValueError('nickname should be shorter than 64 bytes.')
         self.register_ip = register_ip
         #If last_login_ip is None, just use self.register_ip.
         self.last_login_ip = last_login_ip or self.register_ip
@@ -386,7 +390,11 @@ class Article(Base):
                 microsencond will be leave out to keep step with database.
         """
         self.title = title
+        if len(str(title)) > 128:
+            raise ValueError('title should be shorter than 128 bytes.')
         self.title_for_url = title
+        if len(str(title_for_url)) > 128:
+            raise ValueError('title_for_url should be shorter than 128 bytes.')
         self.raw = raw
 
         self.content = content or utils.content_convert(raw, converter)
