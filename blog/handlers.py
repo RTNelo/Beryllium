@@ -72,7 +72,8 @@ class BaseHandler(web.RequestHandler):
         """Set the current user.
 
         args:
-            user(model.User): the current user you want to set.
+            user(model.User):
+                The current user you want to set.
         """
         self.session.value.user = user
 
