@@ -92,9 +92,9 @@ class User(Base):
                 The raw password of the user. The __init__ method will
                 calculate and store its hash value automatically. Use
                 last_login_time (left out microsencond) as salt.
-            nickname(str):
+            nickname(basestring):
                 The nickname of the user. Should less than 64 bytes long.
-            register_ip(str):
+            register_ip(basestring):
                 The ipv4 address of the user when it register the blog. Must
                 be shorter than 15 bytes. str(register_ip) will be used as
                 salt_suf when calculate hash value of a password.
@@ -103,12 +103,12 @@ class User(Base):
                 The time when the user last login. Should be a
                 UTC time too. The microsencond will be leave
                 out, too.
-            last_login_ip(str,
+            last_login_ip(basestring,
                           default=register_ip):
                 The ip address where the user last login. Leave
                 it out will use the register_ip. Must be shorter
                 than 15 bytes, too.
-            status(str, default='user'):
+            status(basestring, default='user'):
                 The status of the user. Must be one of these values:
                     'host': the owner of the blog;
                     'admin': the administory of the blog;
@@ -188,23 +188,23 @@ class User(Base):
         """Get user by a identification.
 
         args:
-            identification(str or int):
-                the identification of the user you want to get. If it is str,
-                the method will use it as the user's email; if it is int, it
-                will be used as the user's id.
+            identification(basestring or int):
+                the identification of the user you want to get. If it is a
+                basestring, the method will use it as the user's email; if it
+                is an int, it will be used as the user's id.
         return(User or None):
             The user you want to get. If there is no user have the
             identification return None.
         raise:
-            TypeError: if identification is not an int or str.
+            TypeError: if identification is not an int or basestring.
 
         """
         if isinstance(identification, int):
             return User.get_user_by_id(identification)
-        elif isinstance(identification, str):
+        elif isinstance(identification, basestring):
             return User.get_user_by_email(identification)
         else:
-            raise TypeError('Identification must be an int or string.')
+            raise TypeError('Identification must be an int or basestring.')
 
     @staticmethod
     def get_user_by_id(id):
@@ -222,7 +222,7 @@ class User(Base):
     def get_user_by_email(email):
         """Get user by user's email.
         args:
-            email(str):
+            email(basestring):
                 The email of the user.
         return(User or None):
             The first user (ordered by id) meet the condition. Or None if no
@@ -234,9 +234,9 @@ class User(Base):
     def get_user_by_email_and_password(email, password):
         """Get user by email and password.
         args:
-            email(str):
+            email(basestring):
                 The user's email.
-            password(str):
+            password(basestring):
                 The user's raw password. Will get it's hash value
                 automatically.
         return(User or None):
@@ -255,27 +255,28 @@ class User(Base):
         """Is there a user with this identification?
 
         args:
-            identification(int or str):
+            identification(int or basestring):
                 The identification of the user. If it is an int, it will be
-                used as the user's id. If it is a str, it will be used as the
-                user's email if is_nickname is False, or it will be used as the
-                user's nickname.
+                used as the user's id. If it is a basestring, it will be used
+                as the user's email if is_nickname is False, or it will be used
+                as the user's nickname.
             is_nickname(bool):
-                If we use identification as user's nickname When it is a str?
+                If we use identification as user's nickname When it is a
+                basestring?
         return(bool):
             True if we have the user. Otherwise, return False.
         raise:
-            TypeError: If identification is not an int or a string.
+            TypeError: If identification is not an int or a basestring.
         """
         if isinstance(identification, int):
             return User.have_user_with_id(identification)
-        elif isinstance(identification, str):
+        elif isinstance(identification, basestring):
             if is_nickname:
                 return User.have_user_with_nickname(identification)
             else:
                 return User.have_user_with_email(identification)
         else:
-            raise TypeError('Identification must be an int or string.')
+            raise TypeError('Identification must be an int or basestring.')
 
     @staticmethod
     def have_user_with_id(id):
@@ -295,7 +296,7 @@ class User(Base):
         """Is there a user with this email.
 
         args:
-            email(str):
+            email(basestring):
                 The user's email.
         return(bool):
             True if we have a user with the email. Otherwise, return False.
@@ -308,7 +309,7 @@ class User(Base):
         """Is there a user with this nickname.
 
         args:
-            nickname(str):
+            nickname(basestring):
                 The user's nickname.
         return(bool):
             True if we have a user with the nickname. Otherwise, return False.
@@ -360,12 +361,12 @@ class Article(Base):
                  ):
         """
         args:
-            title(str):
+            title(basestring):
                 The title of the article. Must be shorter than 128 bytes.
-            title_for_url(str):
-                The title of url display. A string in ASCII encoding is
+            title_for_url(basestring):
+                The title of url display. A str in ASCII encoding is
                 recommended. Should be shorter than 128 bytes.
-            raw(str):
+            raw(basestring):
                 The raw content of the article (such as the markdown file's
                 content).
             author(User, default=None):
@@ -374,7 +375,7 @@ class Article(Base):
             converter(callable):
                 It's necessary if content need converting from raw. Will use
                 converter(raw) to convert.
-            content(str, default=None):
+            content(basestring, default=None):
                 The content of the article. If it is None, this function will
                 convert the raw to content.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
@@ -440,10 +441,10 @@ class Comment(Base):
                  ):
         """
         args:
-            raw(str):
+            raw(basestring):
                 Raw content of the Comment. Such as the markdown file's
                 content.
-            content(str):
+            content(basestring):
                 The content displayed for visitor. If it is None, __init__ will
                 convert the raw and use the result as the content
                 automatically.
