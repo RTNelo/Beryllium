@@ -86,42 +86,41 @@ class User(Base):
                  ):
         """
         args:
-            email(str): the email adress of the user. Should less than 128
-                        bytes long.
-            password(str): the raw password of the user. The __init__ method
-                           will calculate and store its hash value
-                           automatically. Use last_login_time (left out
-                           microsencond) as salt.
-            nickname(str): the nickname of the user. Should less than 64 bytes
-                           long.
-            register_ip(str): the ipv4 address of the user when it register the
-                              blog. Must be shorter than 15 bytes.
-                              str(register_ip) will be used as salt_suf when
-                              calculate hash value of a password.
+            email(basestring):
+                The email adress of the user. Should less than 128 bytes long.
+            password(basestring):
+                The raw password of the user. The __init__ method will
+                calculate and store its hash value automatically. Use
+                last_login_time (left out microsencond) as salt.
+            nickname(str):
+                The nickname of the user. Should less than 64 bytes long.
+            register_ip(str):
+                The ipv4 address of the user when it register the blog. Must
+                be shorter than 15 bytes. str(register_ip) will be used as
+                salt_suf when calculate hash value of a password.
             last_login_time(datetime.datetime,
                             default=last_login_time):
-                                the time when the user last login. Should be a
-                                UTC time too. The microsencond will be leave
-                                out, too.
+                The time when the user last login. Should be a
+                UTC time too. The microsencond will be leave
+                out, too.
             last_login_ip(str,
                           default=register_ip):
-                              the ip address where the user last login. Leave
-                              it out will use the register_ip. Must be shorter
-                              than 15 bytes, too.
-            status(str, default='user'): the status of the user. Must be one
-                                         of these values:
-                             'host': the owner of the blog;
-                             'admin': the administory of the blog;
-                             'user': plan user of the blog.
+                The ip address where the user last login. Leave
+                it out will use the register_ip. Must be shorter
+                than 15 bytes, too.
+            status(str, default='user'):
+                The status of the user. Must be one of these values:
+                    'host': the owner of the blog;
+                    'admin': the administory of the blog;
+                    'user': plan user of the blog.
             register_time(datetime.datetime,
                           default=datetime.datetime.utcnow):
-                              the time when the user register. Should be a UTC
-                              time. And the microsencond will be leave out.
-                              str(register_time) will be used as salt_pre when
-                              calculate a password hash value.
-            id(int, default=auto_increase): the id of the user. Use None will
-                                            use a new id created by session
-                                            when commit.
+                The time when the user register. Should be a UTC time. And
+                the microsencond will be leave out. str(register_time) will be
+                used as salt_pre when calculate a password hash value.
+            id(int, default=auto_increase):
+                The id of the user. Use None will use a new id created by
+                session when commit.
         """
         self.email = email
         self.nickname = nickname
@@ -148,7 +147,8 @@ class User(Base):
         """Get a password's hash value and use user's some attributes as salt.
 
         args:
-            password(str): the password you want to get hash value.
+            password(str):
+                The password you want to get hash value.
         return(str):
             The hash value of the password, self.register_time as salt_pre, and
             self.register_ip as salt_suf.
@@ -188,10 +188,10 @@ class User(Base):
         """Get user by a identification.
 
         args:
-            identification(str or int): the identification of the user you want
-                                        to get. If it is str, the method will
-                                        use it as the user's email; if it is
-                                        int, it will be used as the user's id.
+            identification(str or int):
+                the identification of the user you want to get. If it is str,
+                the method will use it as the user's email; if it is int, it
+                will be used as the user's id.
         return(User or None):
             The user you want to get. If there is no user have the
             identification return None.
@@ -210,7 +210,8 @@ class User(Base):
     def get_user_by_id(id):
         """Get user by user's id.
         args:
-            id(int): the id of user.
+            id(int):
+                The id of user.
         return(User or None):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
@@ -221,7 +222,8 @@ class User(Base):
     def get_user_by_email(email):
         """Get user by user's email.
         args:
-            email(str): the email of the user.
+            email(str):
+                The email of the user.
         return(User or None):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
@@ -232,9 +234,11 @@ class User(Base):
     def get_user_by_email_and_password(email, password):
         """Get user by email and password.
         args:
-            email(str): the user's email.
-            password(str): the user's raw password. Will get it's hash value
-                           automatically.
+            email(str):
+                The user's email.
+            password(str):
+                The user's raw password. Will get it's hash value
+                automatically.
         return(User or None):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
@@ -251,14 +255,13 @@ class User(Base):
         """Is there a user with this identification?
 
         args:
-            identification(int or str): the identification of the user. If it
-                                        is an int, it will be used as the
-                                        user's id. If it is a str, it will be
-                                        used as the user's email if is_nickname
-                                        is False, or it will be used as the
-                                        user's nickname.
-            is_nickname(bool): if we use identification as user's nickname When
-                               it is a str?
+            identification(int or str):
+                The identification of the user. If it is an int, it will be
+                used as the user's id. If it is a str, it will be used as the
+                user's email if is_nickname is False, or it will be used as the
+                user's nickname.
+            is_nickname(bool):
+                If we use identification as user's nickname When it is a str?
         return(bool):
             True if we have the user. Otherwise, return False.
         raise:
@@ -279,7 +282,8 @@ class User(Base):
         """Is there a user with this id.
 
         args:
-            id(int): the id of the user.
+            id(int):
+                The id of the user.
         return(bool):
             True if we have a user with the id. Otherwise, return False.
         """
@@ -291,7 +295,8 @@ class User(Base):
         """Is there a user with this email.
 
         args:
-            email(str): the user's email.
+            email(str):
+                The user's email.
         return(bool):
             True if we have a user with the email. Otherwise, return False.
         """
@@ -303,7 +308,8 @@ class User(Base):
         """Is there a user with this nickname.
 
         args:
-            nickname(str): the user's nickname.
+            nickname(str):
+                The user's nickname.
         return(bool):
             True if we have a user with the nickname. Otherwise, return False.
         """
@@ -354,25 +360,27 @@ class Article(Base):
                  ):
         """
         args:
-            title(str): the title of the article. Must be shorter than 128
-                        bytes.
-            title_for_url(str): the title of url display. A string in ASCII
-                                encoding is recommended. Should be shorter
-                                than 128 bytes.
-            raw(str): the raw content of the article (such as the markdown
-                      file's content).
-            author(User, default=None): the author of the article. This method
-                          will add itself to the user's articles list
-                          automatically if author is not None.
-            converter(callable): It's necessary if content need converting
-                                 from raw. Will use converter(raw) to convert.
-            content(str, default=None): the content of the article. If it is
-                          None, this function will convert the raw to content.
+            title(str):
+                The title of the article. Must be shorter than 128 bytes.
+            title_for_url(str):
+                The title of url display. A string in ASCII encoding is
+                recommended. Should be shorter than 128 bytes.
+            raw(str):
+                The raw content of the article (such as the markdown file's
+                content).
+            author(User, default=None):
+                the author of the article. This method will add itself to the
+                user's articles list automatically if author is not None.
+            converter(callable):
+                It's necessary if content need converting from raw. Will use
+                converter(raw) to convert.
+            content(str, default=None):
+                The content of the article. If it is None, this function will
+                convert the raw to content.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow()):
-                    When the author submit the time? Should be a UTC time. If
-                    it is None, this method will use datetime.datetime.utcnow()
-                    And the microsencond will be leave out to keep step with
-                    database.
+                When the author submit the time? Should be a UTC time. If it is
+                None, this method will use datetime.datetime.utcnow(). And the
+                microsencond will be leave out to keep step with database.
         """
         self.title = title
         self.title_for_url = title
@@ -432,26 +440,29 @@ class Comment(Base):
                  ):
         """
         args:
-            raw(str): raw content of the Comment. Such as the markdown file's
-                      content.
-            content(str): the content displayed for visitor. If it is None,
-                          __init__ will convert the raw and use the result as
-                          the content automatically.
-            author(User, default=None): the author of the comment. If it is not
-                                        None, __init__ will append the comment
-                                        to author's comments attribute.
-            article(Article, default=None): the article which own this comment.
-                                            __init__ will append the comment to
-                                            article.comments if article is not
-                                            None.
-            converter(callable): It's necessary if content need converting
-                                 from raw. Will use converter(raw) to convert.
+            raw(str):
+                Raw content of the Comment. Such as the markdown file's
+                content.
+            content(str):
+                The content displayed for visitor. If it is None, __init__ will
+                convert the raw and use the result as the content
+                automatically.
+            author(User, default=None):
+                The author of the comment. If it is not None, __init__ will
+                append the comment to author's comments attribute.
+            article(Article, default=None):
+                The article which own this comment. __init__ will append the
+                comment to article.comments if article is not None.
+            converter(callable):
+                It's necessary if content need converting from raw. Will use
+                converter(raw) to convert.
             submit_time(datetime.datetime, default=datetime.datetime.utcnow():
-                    The UTC time when author submit the comment. If it is None,
-                    use datetime.datetime.utcnow() as default. Then the
-                    microsencond will be leave out to keep step with database.
-            id(int, default=None): the id of the comment. If it is None, will
-                                   use a value presented by database.
+                The UTC time when author submit the comment. If it is None, use
+                datetime.datetime.utcnow() as default. Then the microsencond
+                will be leave out to keep step with database.
+            id(int, default=None):
+                The id of the comment. If it is None, will use a value
+                presented by database.
         """
         self.raw = raw
         self.content = content or utils.content_convert(self.raw, converter)
