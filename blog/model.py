@@ -66,7 +66,7 @@ class User(Base):
     id = Column(types.Integer, primary_key=True)
     email = Column(types.String(128), unique=True, nullable=False)
     password = Column(types.String(64), nullable=False)
-    nickname = Column(types.String(64), nullable=False)
+    nickname = Column(types.String(64), unique=True, nullable=False)
     status = Column(types.Enum('host', 'admin', 'user'), nullable=False)
     register_time = Column(types.DateTime, nullable=False)
     register_ip = Column(types.String(15), nullable=False)
@@ -215,8 +215,7 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return session.query(User).filter_by(id=id)\
-                                  .order_by(User.id).first()
+        return User._query_filter_by(id=id).order_by(User.id).first()
 
     @staticmethod
     def get_user_by_email(email):
@@ -227,8 +226,7 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return session.query(User).filter_by(email=email)\
-                                  .order_by(User.id).first()
+        return User._query_filter_by(email=email).order_by(User.id).first()
 
     @staticmethod
     def get_user_by_email_and_password(email, password):
@@ -249,14 +247,18 @@ class User(Base):
             return None
 
     @staticmethod
-    def have_user(identification):
+    def have_user(identification, is_nickname=False):
         """Is there a user with this identification?
 
         args:
             identification(int or str): the identification of the user. If it
-                                        is an integer, it will be used as
-                                        the user's id. If it is a string,
-                                        it will be used as the user's email.
+                                        is an int, it will be used as the
+                                        user's id. If it is a str, it will be
+                                        used as the user's email if is_nickname
+                                        is False, or it will be used as the
+                                        user's nickname.
+            is_nickname(bool): if we use identification as user's nickname When
+                               it is a str?
         return(bool):
             True if we have the user. Otherwise, return False.
         raise:
@@ -265,7 +267,10 @@ class User(Base):
         if isinstance(identification, int):
             return User.have_user_with_id(identification)
         elif isinstance(identification, str):
-            return User.have_user_with_email(identification)
+            if is_nickname:
+                return User.have_user_with_nickname(identification)
+            else:
+                return User.have_user_with_email(identification)
         else:
             raise TypeError('Identification must be an int or string.')
 
@@ -278,7 +283,7 @@ class User(Base):
         return(bool):
             True if we have a user with the id. Otherwise, return False.
         """
-        count = session.query(User).filter_by(id=id).count()
+        count = User._query_filter_by(id=id).count()
         return count > 0
 
     @staticmethod
@@ -290,8 +295,31 @@ class User(Base):
         return(bool):
             True if we have a user with the email. Otherwise, return False.
         """
-        count = session.query(User).filter_by(email).count()
+        count = User._query_filter_by(email=email).count()
         return count > 0
+
+    @staticmethod
+    def have_user_with_nickname(nickname):
+        """Is there a user with this nickname.
+
+        args:
+            nickname(str): the user's nickname.
+        return(bool):
+            True if we have a user with the nickname. Otherwise, return False.
+        """
+        count = User._query_filter_by(nickname=nickname).count()
+        return count > 0
+
+    @staticmethod
+    def _query_filter_by(**conditions):
+        """Use the session to query the user with conditions.
+
+        args:
+            conditions.
+        return(Query):
+            The query object where you can get result of this query.
+        """
+        return session.query(User).filter_by(**conditions)
 
 
 class Article(Base):

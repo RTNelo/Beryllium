@@ -35,6 +35,7 @@ __repr__	blog/model.py	/^    def __repr__(self):$/;"	m	class:User	file:
 __tablename__	blog/model.py	/^    __tablename__ = 'articles'$/;"	v	class:Article
 __tablename__	blog/model.py	/^    __tablename__ = 'comments'$/;"	v	class:Comment
 __tablename__	blog/model.py	/^    __tablename__ = 'users'$/;"	v	class:User
+_query_filter_by	blog/model.py	/^    def _query_filter_by(**conditions):$/;"	m	class:User
 add_callback	blog/cron.py	/^    def add_callback(self):$/;"	m	class:_Task
 add_timer_task	blog/cron.py	/^    def add_timer_task(self, task, interval):$/;"	m	class:Cron
 apply_args_to_converter	blog/utils.py	/^def apply_args_to_converter(converter, *args, **kwargs):$/;"	f
