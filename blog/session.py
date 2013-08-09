@@ -18,11 +18,13 @@ class Session(object):
     def __init__(self, key, expire_time, value=None):
         """
         args:
-            expire_time(datetime.datetime): when the session expire. UTC time.
-            key(str): the key of the session in it's SessionStorage.
-            value(dict, default=None): use value to init a ObjectDict as
-                                       self.value. If it is None, use an empty
-                                       dict.
+            expire_time(datetime.datetime):
+                When the session expire. UTC time.
+            key(str):
+                The key of the session in it's SessionStorage.
+            value(dict, default=None):
+                Use value to init a ObjectDict as self.value. If it is None,
+                use an empty dict.
         """
         self.key = key
         self.expire_time = expire_time
@@ -39,7 +41,8 @@ class Session(object):
         """Reset the Session expire time.
 
         args:
-            expire(datetime.datetime): when the session should be expired.
+            expire(datetime.datetime):
+                When the session should be expired.
         """
         self.expire_time = expire_time
 
@@ -55,12 +58,12 @@ class SessionManager(object):
                  ):
         """
         args:
-            default_expire(datetime.timedelta): the default life time of a
-                                                session. self.create_session
-                                                will use this as the default
-                                                life time as a new session.
-            storage(type): the storage class of the SessionManager. Must
-                           look like a tornado.util.ObjectDict.
+            default_expire(datetime.timedelta):
+                The default life time of a session. self.create_session will use
+                this as the default life time as a new session.
+            storage(type):
+                The storage class of the SessionManager. Must look like a
+                tornado.util.ObjectDict.
         """
         self.default_expire = default_expire
         self.storage = SessionStorage()
@@ -72,11 +75,11 @@ class SessionManager(object):
         of 10 ascii letters] as storage's key. It will guarantee the key is
         unique.
         args:
-            value(dict, default=None): the value of the new session. If it is
-                                       None, use an empty dict.
+            value(dict, default=None):
+                The value of the new session. If it is None, use an empty dict.
             expire(datetime.timedelta, default=None):
-                    the life time of the new session. If it is Nonw, will use
-                    The manager's default_expire.
+                The life time of the new session. If it is Nonw, will use The
+                manager's default_expire.
         return((str, Session)):
             A tuple like (key, Created session)
         """
@@ -100,8 +103,8 @@ class SessionManager(object):
 
         args:
             expire(datetime.timedelta, default=None):
-                    the life time of the session after refresh. Will use the
-                    default_expire of SessionManager if it is None.
+                The life time of the session after refresh. Will use the
+                default_expire of SessionManager if it is None.
         raise:
             KeyError: if there is no session with the key. Raise a KeyError.
         """
