@@ -64,7 +64,7 @@ class BaseHandler(web.RequestHandler):
     def get_template_namespace(self):
         """Override to provide some common variables to template."""
         return dict(request=self.request,
-                    user=self.get_current_user()
+                    current_user=self.get_current_user()
                     )
 
     def get_current_user(self):
