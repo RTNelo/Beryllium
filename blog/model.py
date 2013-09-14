@@ -422,6 +422,30 @@ class Article(Base):
                                  submit_time=self.submit_time,
                                  )
 
+    @classmethod
+    def get_article(cls, identification):
+        """Get user by the identification.
+
+        Now it just is an alias of get_article_by_title_for_url.
+        args:
+            identification(basestring): the title_for_url of the article.
+        return(Article or None):
+            Return the Article found by the identification or None.
+        """
+        cls.get_article_by_title_for_url(identification)
+
+    @classmethod
+    def get_article_by_title_for_url(cls, title_for_url):
+        """Get user by the title_for_url.
+
+        args:
+            title_for_url(basestring): the title_for_url of the article.
+        return(Article or None):
+            Return the Article found by the identification or None.
+        """
+        return (cls.query_filter_by(title_for_url=title_for_url).
+                order_by(cls.id).first())
+
 
 class Comment(Base):
     """Class of a comment."""
