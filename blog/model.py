@@ -203,7 +203,7 @@ class User(Base):
                                  )
 
     @classmethod
-    def get_user(identification):
+    def get_user(cls, identification):
         """Get user by a identification.
 
         args:
@@ -219,14 +219,14 @@ class User(Base):
 
         """
         if isinstance(identification, int):
-            return User.get_user_by_id(identification)
+            return cls.get_user_by_id(identification)
         elif isinstance(identification, basestring):
-            return User.get_user_by_email(identification)
+            return cls.get_user_by_email(identification)
         else:
             raise TypeError('Identification must be an int or basestring.')
 
     @classmethod
-    def get_user_by_id(id):
+    def get_user_by_id(cls, id):
         """Get user by user's id.
         args:
             id(int):
@@ -235,10 +235,10 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return User.query_fileter_by(id=id).order_by(User.id).first()
+        return cls.query_filter_by(id=id).order_by(cls.id).first()
 
     @classmethod
-    def get_user_by_email(email):
+    def get_user_by_email(cls, email):
         """Get user by user's email.
         args:
             email(basestring):
@@ -247,10 +247,10 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return User.query_filter_by(email=email).order_by(User.id).first()
+        return cls.query_filter_by(email=email).order_by(cls.id).first()
 
     @classmethod
-    def get_user_by_email_and_password(email, password):
+    def get_user_by_email_and_password(cls, email, password):
         """Get user by email and password.
         args:
             email(basestring):
@@ -262,7 +262,7 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        user = User.get_user_by_email(email)
+        user = cls.get_user_by_email(email)
         if user is not None and (user.get_password_hash(password) ==
                                  user.password):
             return user
@@ -270,7 +270,7 @@ class User(Base):
             return None
 
     @classmethod
-    def have_user(identification, is_nickname=False):
+    def have_user(cls, identification, is_nickname=False):
         """Is there a user with this identification?
 
         args:
@@ -288,17 +288,17 @@ class User(Base):
             TypeError: If identification is not an int or a basestring.
         """
         if isinstance(identification, int):
-            return User.have_user_with_id(identification)
+            return cls.have_user_with_id(identification)
         elif isinstance(identification, basestring):
             if is_nickname:
-                return User.have_user_with_nickname(identification)
+                return cls.have_user_with_nickname(identification)
             else:
-                return User.have_user_with_email(identification)
+                return cls.have_user_with_email(identification)
         else:
             raise TypeError('Identification must be an int or basestring.')
 
     @classmethod
-    def have_user_with_id(id):
+    def have_user_with_id(cls, id):
         """Is there a user with this id.
 
         args:
@@ -307,11 +307,11 @@ class User(Base):
         return(bool):
             True if we have a user with the id. Otherwise, return False.
         """
-        count = User.query_filter_by(id=id).count()
+        count = cls.query_filter_by(id=id).count()
         return count > 0
 
     @classmethod
-    def have_user_with_email(email):
+    def have_user_with_email(cls, email):
         """Is there a user with this email.
 
         args:
@@ -320,11 +320,11 @@ class User(Base):
         return(bool):
             True if we have a user with the email. Otherwise, return False.
         """
-        count = User.query_fileter_by(email=email).count()
+        count = cls.query_filter_by(email=email).count()
         return count > 0
 
     @classmethod
-    def have_user_with_nickname(nickname):
+    def have_user_with_nickname(cls, nickname):
         """Is there a user with this nickname.
 
         args:
@@ -333,7 +333,7 @@ class User(Base):
         return(bool):
             True if we have a user with the nickname. Otherwise, return False.
         """
-        count = User.query_filter_by(nickname=nickname).count()
+        count = cls.query_filter_by(nickname=nickname).count()
         return count > 0
 
 
