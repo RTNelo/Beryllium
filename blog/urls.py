@@ -16,6 +16,7 @@ urls = [(r'/login/?', handlers.LoginHandler),
         (r'/user(?:/(\d+))?/?', handlers.UserInfoHandler),
         (r'/article/(\w+?)/?', handlers.ArticleHandler),
         (r'/submit/article/?', handlers.ArticleSubmitHandler),
+        (r'/submit/comment/?', handlers.CommentSubmitHandler),
         #Handle every request out of urls and return a 404 status code.
         (r'.*', web.ErrorHandler, dict(status_code=404)),
         ]

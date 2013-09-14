@@ -180,9 +180,7 @@ class UserInfoHandler(BaseHandler):
 
 
 class ArticleSubmitHandler(BaseHandler):
-    """Handle the article submit request.
-
-    """
+    """Handle the article submit request."""
     @web.addslash
     @web.authenticated
     def get(self):
@@ -210,12 +208,11 @@ class ArticleSubmitHandler(BaseHandler):
         author = self.get_current_user()
         #TODO rtnelo@yeah.net 2013.09.14 16:29
         #Rewrite the status condition if the status was modified.
-        print author
         if author is not None and author.status != 'user':
             article = model.Article(title=title,
                                     title_for_url=title_for_url,
                                     raw=raw,
-                                    author=author
+                                    author=author,
                                     )
             article.track()
             model.commit()
@@ -224,11 +221,36 @@ class ArticleSubmitHandler(BaseHandler):
             self.render('article_submit.failed.tpl')
 
 
+class CommentSubmitHandler(BaseHandler):
+    @web.authenticated
+    def post(self):
+        try:
+            title_for_url = self.get_argument('title_for_url')
+            raw = self.get_argument('content')
+        except web.MissingArgumentError:
+            self.render('comment_submit.failed.tpl')
+            return
+        author = self.get_current_user()
+        if author is not None:
+            article = model.Article.get_article(title_for_url)
+            if article is not None:
+                comment = model.Comment(raw=raw,
+                                        author=author,
+                                        article=article,
+                                        )
+                comment.track()
+                model.commit()
+                self.render('comment_submit.successful.tpl', article=article)
+            else:
+                self.render('comment_submit.failed.tpl')
+        else:
+            self.render('comment_submit.failed.tpl')
+
+
 class ArticleHandler(BaseHandler):
     @web.addslash
     def get(self, title_for_url):
         article = model.Article.get_article(title_for_url)
-        print title_for_url
         if article is not None:
             self.render('article.tpl', article=article, comments=article.comments)
         else:
