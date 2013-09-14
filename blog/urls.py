@@ -12,8 +12,8 @@ import handlers
 from tornado import web
 from tornado.web import url
 
-urls = [url(r'/articles/?', handlers.ArticleListHandler, name='articlsf'),
-        url(r'/articles/(\d+)/?', handlers.ArticleListHandler, name='articls'),
+urls = [url(r'/articles/?', handlers.ArticleListHandler, name='articlesf'),
+        url(r'/articles/(\d+)/?', handlers.ArticleListHandler, name='articles'),
         url(r'/login/?', handlers.LoginHandler, name='login'),
         url(r'/logout/?', handlers.LogoutHandler, name='logout'),
         url(r'/register/?', handlers.RegisterHandler, name='register'),
