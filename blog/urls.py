@@ -14,7 +14,8 @@ from tornado import web
 urls = [(r'/login/?', handlers.LoginHandler),
         (r'/register/?', handlers.RegisterHandler),
         (r'/user(?:/(\d+))?/?', handlers.UserInfoHandler),
-        (r'/article/(\w+)/?', handlers.ArticleHandler),
+        (r'/article/(\w+?)/?', handlers.ArticleHandler),
+        (r'/submit/article/?', handlers.ArticleSubmitHandler),
         #Handle every request out of urls and return a 404 status code.
         (r'.*', web.ErrorHandler, dict(status_code=404)),
         ]

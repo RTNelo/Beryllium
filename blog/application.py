@@ -30,4 +30,5 @@ class Application(web.Application):
         super(Application, self).__init__(self.app_urls,
                                           debug=options.debug,
                                           cookie_secret=options.cookie_secret,
+                                          login_url='/login/',
                                           )

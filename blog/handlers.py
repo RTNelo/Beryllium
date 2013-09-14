@@ -179,10 +179,56 @@ class UserInfoHandler(BaseHandler):
             self.write_error(404)
 
 
+class ArticleSubmitHandler(BaseHandler):
+    """Handle the article submit request.
+
+    """
+    @web.addslash
+    @web.authenticated
+    def get(self):
+        self.render('article_submit.tpl')
+
+    @web.authenticated
+    def post(self):
+        """Accept the post request.
+
+        It will accept the article submit request with title, title for url and
+        raw content. Then, if the author is not None and not be a user (it
+        should be the host or one admin), The reqest will be accept. The Handler
+        will create an Article object for it (with the time of the submition,
+        the converted content) and store it.
+
+        If there is anything wrong before, will render a failed page.
+        """
+        try:
+            title = self.get_argument('title')
+            title_for_url = self.get_argument('title_for_url')
+            raw = self.get_argument('content')
+        except web.MissingArgumentError:
+            self.render('article_submit.failed.tpl')
+            return
+        author = self.get_current_user()
+        #TODO rtnelo@yeah.net 2013.09.14 16:29
+        #Rewrite the status condition if the status was modified.
+        print author
+        if author is not None and author.status != 'user':
+            article = model.Article(title=title,
+                                    title_for_url=title_for_url,
+                                    raw=raw,
+                                    author=author
+                                    )
+            article.track()
+            model.commit()
+            self.render('article_submit.successful.tpl', article=article)
+        else:
+            self.render('article_submit.failed.tpl')
+
+
 class ArticleHandler(BaseHandler):
     @web.addslash
     def get(self, title_for_url):
         article = model.Article.get_article(title_for_url)
+        print title_for_url
         if article is not None:
             self.render('article.tpl', article=article, comments=article.comments)
         else:

@@ -394,7 +394,7 @@ class Article(Base):
         self.title = title
         if len(str(title)) > 128:
             raise ValueError('title should be shorter than 128 bytes.')
-        self.title_for_url = title
+        self.title_for_url = title_for_url
         if len(str(title_for_url)) > 128:
             raise ValueError('title_for_url should be shorter than 128 bytes.')
         self.raw = raw
@@ -432,7 +432,7 @@ class Article(Base):
         return(Article or None):
             Return the Article found by the identification or None.
         """
-        cls.get_article_by_title_for_url(identification)
+        return cls.get_article_by_title_for_url(identification)
 
     @classmethod
     def get_article_by_title_for_url(cls, title_for_url):
