@@ -202,7 +202,7 @@ class User(Base):
                                  last_login_ip=self.last_login_ip,
                                  )
 
-    @staticmethod
+    @classmethod
     def get_user(identification):
         """Get user by a identification.
 
@@ -225,7 +225,7 @@ class User(Base):
         else:
             raise TypeError('Identification must be an int or basestring.')
 
-    @staticmethod
+    @classmethod
     def get_user_by_id(id):
         """Get user by user's id.
         args:
@@ -237,7 +237,7 @@ class User(Base):
         """
         return User.query_fileter_by(id=id).order_by(User.id).first()
 
-    @staticmethod
+    @classmethod
     def get_user_by_email(email):
         """Get user by user's email.
         args:
@@ -249,7 +249,7 @@ class User(Base):
         """
         return User.query_filter_by(email=email).order_by(User.id).first()
 
-    @staticmethod
+    @classmethod
     def get_user_by_email_and_password(email, password):
         """Get user by email and password.
         args:
@@ -269,7 +269,7 @@ class User(Base):
         else:
             return None
 
-    @staticmethod
+    @classmethod
     def have_user(identification, is_nickname=False):
         """Is there a user with this identification?
 
@@ -297,7 +297,7 @@ class User(Base):
         else:
             raise TypeError('Identification must be an int or basestring.')
 
-    @staticmethod
+    @classmethod
     def have_user_with_id(id):
         """Is there a user with this id.
 
@@ -310,7 +310,7 @@ class User(Base):
         count = User.query_filter_by(id=id).count()
         return count > 0
 
-    @staticmethod
+    @classmethod
     def have_user_with_email(email):
         """Is there a user with this email.
 
@@ -323,7 +323,7 @@ class User(Base):
         count = User.query_fileter_by(email=email).count()
         return count > 0
 
-    @staticmethod
+    @classmethod
     def have_user_with_nickname(nickname):
         """Is there a user with this nickname.
 
