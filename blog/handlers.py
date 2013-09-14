@@ -234,8 +234,15 @@ class ArticleSubmitHandler(BaseHandler):
 
 
 class CommentSubmitHandler(BaseHandler):
+    """Accept comment submit request. Only accept post request."""
     @web.authenticated
     def post(self):
+        """Process the submit request of comment.
+
+        First check current_user whether exist. If it's exist, check the
+        article. If this article is exist as well, create a comment
+        object and store it.
+        """
         try:
             title_for_url = self.get_argument('title_for_url')
             raw = self.get_argument('content')
