@@ -33,9 +33,11 @@ url = url_pattern.format(user=options.db_user,
                          dbname=options.db_name,
                          )
 
+
 engine = create_engine(url,
                        echo=options.debug,
-                       connect_args=dict(charset='utf8'))
+                       connect_args=dict(charset='utf8')
+                       )
 
 #Prepare the session instance.
 Session = sessionmaker(bind=engine)
