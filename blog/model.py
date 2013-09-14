@@ -428,7 +428,8 @@ class Article(Base):
 
         Now it just is an alias of get_article_by_title_for_url.
         args:
-            identification(basestring): the title_for_url of the article.
+            identification(basestring):
+                The title_for_url of the article.
         return(Article or None):
             Return the Article found by the identification or None.
         """
@@ -439,12 +440,39 @@ class Article(Base):
         """Get user by the title_for_url.
 
         args:
-            title_for_url(basestring): the title_for_url of the article.
+            title_for_url(basestring):
+                The title_for_url of the article.
         return(Article or None):
             Return the Article found by the identification or None.
         """
         return (cls.query_filter_by(title_for_url=title_for_url).
                 order_by(cls.id).first())
+
+    @classmethod
+    def have_article(cls, identification):
+        """Is there any article with the identification?
+
+        This just is an alias of have_article_with_title_for_url.
+        args:
+            identification(basestring):
+                The title_for_url.
+        return(bool):
+            True if have one more articles with the title_for_url, or False.
+        """
+        return cls.have_article_with_title_for_url(identification)
+
+    @classmethod
+    def have_article_with_title_for_url(cls, title_for_url):
+        """Is there any article with the title for url?
+
+        args:
+            title_for_url(basestring):
+                The title_for_url.
+        return(bool):
+            True if have one more articles with the title_for_url, or False.
+        """
+        count = cls.query_filter_by(title_for_url=title_for_url).count()
+        return count > 0
 
 
 class Comment(Base):
