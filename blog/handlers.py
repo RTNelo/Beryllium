@@ -5,7 +5,9 @@ import datetime
 
 from tornado import web
 
+from options import options
 import model
+import utils
 
 
 class BaseHandler(web.RequestHandler):
@@ -68,7 +70,9 @@ class BaseHandler(web.RequestHandler):
     def get_template_namespace(self):
         """Override to provide some common variables to template."""
         return dict(request=self.request,
-                    current_user=self.get_current_user()
+                    current_user=self.get_current_user(),
+                    reverse_url=utils.create_reverse_url(self.application,
+                                                         options.host_pattern),
                     )
 
     def get_current_user(self):

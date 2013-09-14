@@ -5,6 +5,7 @@
 import hashlib
 import datetime
 import functools
+import urllib
 
 import markdown2
 
@@ -76,3 +77,34 @@ def apply_args_to_converter(converter, *args, **kwargs):
 def apply_args_to_md_converter(*args, **kwargs):
     """Same as apply_args_to_converter, but converter is markdown2.markdown"""
     return apply_args_to_converter(markdown2.markdown, *args, **args)
+
+
+def create_reverse_url(app, host_pattern):
+    """Create a function can return reverse_url (with host_pattern) of app.
+
+    You can use the func.app to access the application instance.
+    You also can access the host_pattern processed by this function.
+    """
+    if host_pattern[-1] != '/':
+        host_pattern = ''.join((host_pattern, '/'))
+    type_of_host, rest = urllib.splittype(host_pattern)
+    #If host_pattern give a type(\w://), the rest will have //
+    if rest[:2] == '//':
+        rest = rest[2:]
+
+    def func(name, type=None, *args):
+        """Return the reversed url.
+
+        It will get the type of host_pattern. If the type param is not None, it
+        will use this param as the reversed url's type, or it will try to use
+        the type of the host_pattern. If host_pattern didn't give a type, it
+        will use http as the type.
+        """
+        type = type or type_of_host or 'http'
+        reverse_url = app.reverse_url(name, *args)[1:]  # remove the '/' ahead.
+        res = urllib.basejoin('{0}://{1}'.format(type, rest), reverse_url)
+        return res
+
+    func.app = app
+    func.host_pattern = host_pattern
+    return func

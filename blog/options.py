@@ -19,6 +19,15 @@ options.define('debug',
                group='application',
                )
 
+des_of_host_pattern = 'The host pattern of this blog.'
+options.define('host_pattern',
+               default='',
+               type=str,
+               help=des_of_host_pattern,
+               metavar='STRING',
+               group='application',
+               )
+
 des_of_db_address = 'The IP Address of the database server.'
 options.define('db_address',
                default='127.0.0.1',

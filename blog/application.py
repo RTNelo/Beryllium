@@ -27,8 +27,9 @@ class Application(web.Application):
         context.update(ctx_module.context)
         self.ctx = context
 
-        super(Application, self).__init__(self.app_urls,
-                                          debug=options.debug,
+        super(Application, self).__init__(debug=options.debug,
                                           cookie_secret=options.cookie_secret,
                                           login_url='/login/',
                                           )
+
+        self.add_handlers(options.host_pattern, self.app_urls)
