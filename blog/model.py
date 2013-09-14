@@ -53,6 +53,17 @@ class BaseModel(object):
         This method will add the instance to the session."""
         session.add(self)
 
+    @classmethod
+    def query_filter_by(cls, **conditions):
+        """Use the session to query the user with conditions.
+
+        args:
+            conditions.
+        return(Query):
+            The query object where you can get result of this query.
+        """
+        return session.query(cls).filter_by(**conditions)
+
 
 Base = declarative_base(cls=BaseModel)
 
@@ -224,7 +235,7 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return User._query_filter_by(id=id).order_by(User.id).first()
+        return User.query_fileter_by(id=id).order_by(User.id).first()
 
     @staticmethod
     def get_user_by_email(email):
@@ -236,7 +247,7 @@ class User(Base):
             The first user (ordered by id) meet the condition. Or None if no
             user have the email.
         """
-        return User._query_filter_by(email=email).order_by(User.id).first()
+        return User.query_filter_by(email=email).order_by(User.id).first()
 
     @staticmethod
     def get_user_by_email_and_password(email, password):
@@ -296,7 +307,7 @@ class User(Base):
         return(bool):
             True if we have a user with the id. Otherwise, return False.
         """
-        count = User._query_filter_by(id=id).count()
+        count = User.query_filter_by(id=id).count()
         return count > 0
 
     @staticmethod
@@ -309,7 +320,7 @@ class User(Base):
         return(bool):
             True if we have a user with the email. Otherwise, return False.
         """
-        count = User._query_filter_by(email=email).count()
+        count = User.query_fileter_by(email=email).count()
         return count > 0
 
     @staticmethod
@@ -322,19 +333,8 @@ class User(Base):
         return(bool):
             True if we have a user with the nickname. Otherwise, return False.
         """
-        count = User._query_filter_by(nickname=nickname).count()
+        count = User.query_filter_by(nickname=nickname).count()
         return count > 0
-
-    @staticmethod
-    def _query_filter_by(**conditions):
-        """Use the session to query the user with conditions.
-
-        args:
-            conditions.
-        return(Query):
-            The query object where you can get result of this query.
-        """
-        return session.query(User).filter_by(**conditions)
 
 
 class Article(Base):
