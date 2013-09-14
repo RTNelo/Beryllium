@@ -24,6 +24,8 @@ class BaseHandler(web.RequestHandler):
         Will use visitor's IP address to protect the secure cookie from
         being copy.
         """
+        self.reverse_url = utils.create_reverse_url(self.application,
+                                                    options.host_pattern)
 
         #Create an alias for self.application.ctx
         self.ctx = self.application.ctx
@@ -71,8 +73,7 @@ class BaseHandler(web.RequestHandler):
         """Override to provide some common variables to template."""
         return dict(request=self.request,
                     current_user=self.get_current_user(),
-                    reverse_url=utils.create_reverse_url(self.application,
-                                                         options.host_pattern),
+                    reverse_url=self.reverse_url,
                     )
 
     def get_current_user(self):
@@ -94,6 +95,13 @@ class BaseHandler(web.RequestHandler):
     def empty_current_user(self):
         """Set current user empty (None)."""
         self.set_current_user(None)
+
+
+class HomeHandler(BaseHandler):
+    """Process request to path /. Will redict to articles now."""
+    @web.addslash
+    def get(self):
+        self.redirect(self.reverse_url('articlesf'))
 
 
 class RegisterHandler(BaseHandler):
