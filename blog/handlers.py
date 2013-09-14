@@ -5,7 +5,6 @@ import datetime
 
 from tornado import web
 
-import context
 import model
 
 
@@ -18,18 +17,23 @@ class BaseHandler(web.RequestHandler):
     def prepare(self):
         """Prepare for the handle process.
 
+        Will create an alias for self.application.ctx.
         Will check the vistor's secure cookie to get or create a session.
         Will use visitor's IP address to protect the secure cookie from
         being copy.
         """
+
+        #Create an alias for self.application.ctx
+        self.ctx = self.application.ctx
+
         session_id = self.get_secure_cookie('session_id')
-        if session_id in context.session_manager.storage:
-            session = context.session_manager.storage[session_id]
+        if session_id in self.ctx.session_manager.storage:
+            session = self.ctx.session_manager.storage[session_id]
             if session.value.ip != self.request.remote_ip:
                 self.create_session_for_visitor()
             else:
                 #Refresh (extend the life time of) the session.
-                context.session_manager.refresh_session(session_id)
+                self.ctx.session_manager.refresh_session(session_id)
 
                 self.session = session
         else:
@@ -41,7 +45,7 @@ class BaseHandler(web.RequestHandler):
         Store the session.
         """
         key = self.session.key
-        context.session_manager.storage[key] = self.session
+        self.ctx.session_manager.storage[key] = self.session
 
     def create_session_for_visitor(self):
         """Create a new session and set the session_id secure cookie.
@@ -49,14 +53,14 @@ class BaseHandler(web.RequestHandler):
         Will store the IP address for protecting session_id secure cookie
         from being copy.
         """
-        self.session = context.session_manager.create_session()
+        self.session = self.ctx.session_manager.create_session()
         key = self.session.key
         self.session.value.ip = self.request.remote_ip
         self.set_secure_cookie('session_id', key)
 
     def render_string(self, template_name, **kwargs):
         """Override it to provide mako templates support."""
-        template = context.template_lookup.get_template(template_name)
+        template = self.ctx.template_lookup.get_template(template_name)
         namespace = self.get_template_namespace()
         namespace.update(kwargs)
         return template.render(**namespace)
