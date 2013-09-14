@@ -64,6 +64,16 @@ class BaseModel(object):
         """
         return session.query(cls).filter_by(**conditions)
 
+    @classmethod
+    def count(cls):
+        """Return how many objects there are."""
+        return session.query(cls).count()
+
+    @classmethod
+    def part(cls, offset, limit):
+        """Offset offset and return a list having less than limit+1 object"""
+        return session.query(cls).offset(offset).limit(limit).all()
+
 
 Base = declarative_base(cls=BaseModel)
 

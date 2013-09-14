@@ -278,3 +278,17 @@ class ArticleHandler(BaseHandler):
             self.render('article.tpl', article=article, comments=article.comments)
         else:
             self.write_error(404)
+
+
+class ArticleListHandler(BaseHandler):
+    @web.addslash
+    def get(self, page=1):
+        #TODO: Use user's config in stead of the magic number.
+        count = model.Article.count()
+        ubound = int(count / 20) + 1
+        page = page if page <= ubound else ubound
+        offset = (page - 1) * 20
+        limit = 20
+        articles = model.Article.part(offset, limit)
+        self.render('article_list.tpl', page=page, ubound=ubound,
+                    articles=articles)
