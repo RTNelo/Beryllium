@@ -12,6 +12,7 @@ import handlers
 from tornado import web
 
 urls = [(r'/login/?', handlers.LoginHandler),
+        (r'/logout/?', handlers.LogoutHandler),
         (r'/register/?', handlers.RegisterHandler),
         (r'/user(?:/(\d+))?/?', handlers.UserInfoHandler),
         (r'/article/(\w+?)/?', handlers.ArticleHandler),

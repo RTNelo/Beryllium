@@ -87,6 +87,10 @@ class BaseHandler(web.RequestHandler):
         """
         self.session.value.user = user
 
+    def empty_current_user(self):
+        """Set current user empty (None)."""
+        self.set_current_user(None)
+
 
 class RegisterHandler(BaseHandler):
     """Handle register request."""
@@ -153,6 +157,14 @@ class LoginHandler(BaseHandler):
             user.last_login_time = datetime.datetime.utcnow()
             user.last_login_ip = self.request.remote_ip
             model.commit()
+
+
+class LogoutHandler(BaseHandler):
+    """Access logout request."""
+    @web.addslash
+    def get(self):
+        self.empty_current_user()
+        self.render('logout.successful.tpl')
 
 
 class UserInfoHandler(BaseHandler):
