@@ -307,8 +307,7 @@ class User(Base):
         return(bool):
             True if we have a user with the id. Otherwise, return False.
         """
-        count = cls.query_filter_by(id=id).count()
-        return count > 0
+        return cls.query_filter_by(id=id).exists()
 
     @classmethod
     def have_user_with_email(cls, email):
@@ -320,8 +319,7 @@ class User(Base):
         return(bool):
             True if we have a user with the email. Otherwise, return False.
         """
-        count = cls.query_filter_by(email=email).count()
-        return count > 0
+        return cls.query_filter_by(email=email).exists()
 
     @classmethod
     def have_user_with_nickname(cls, nickname):
@@ -333,8 +331,7 @@ class User(Base):
         return(bool):
             True if we have a user with the nickname. Otherwise, return False.
         """
-        count = cls.query_filter_by(nickname=nickname).count()
-        return count > 0
+        return cls.query_filter_by(nickname=nickname).exists()
 
 
 class Article(Base):
@@ -469,10 +466,9 @@ class Article(Base):
             title_for_url(basestring):
                 The title_for_url.
         return(bool):
-            True if have one more articles with the title_for_url, or False.
+            True if have one or more article with the title_for_url, or False.
         """
-        count = cls.query_filter_by(title_for_url=title_for_url).count()
-        return count > 0
+        return cls.query_filter_by(title_for_url=title_for_url).exists()
 
 
 class Comment(Base):
