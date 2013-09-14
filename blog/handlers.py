@@ -177,3 +177,13 @@ class UserInfoHandler(BaseHandler):
             self.render('user_info.tpl', user=self.get_current_user())
         else:
             self.write_error(404)
+
+
+class ArticleHandler(BaseHandler):
+    @web.addslash
+    def get(self, title_for_url):
+        article = model.Article.get_article(title_for_url)
+        if article is not None:
+            self.render('article.tpl', article=article, comments=article.comments)
+        else:
+            self.write_error(404)
